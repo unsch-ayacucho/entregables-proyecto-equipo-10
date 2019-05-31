@@ -1,22 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>RoyalUI Admin</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="../../vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="../../css/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="../../images/favicon.png" />
-</head>
+<html lang="es">
+
+<!-- partial:partials/_head.jsp -->
+<%@include file="../../_partials/_head.jsp" %>
+<!-- partial -->
 
 <body>
   <div class="container-scroller">
@@ -26,7 +15,7 @@
           <div class="col-lg-4 mx-auto">
             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
               <div class="brand-logo">
-                <img src="../../images/logo.svg" alt="logo">
+                <img src="<c:url value="/assets/images/logo.svg" />" alt="logo">
               </div>
               <h4>New here?</h4>
               <h6 class="font-weight-light">Signing up is easy. It only takes a few steps</h6>
@@ -59,10 +48,10 @@
                   </div>
                 </div>
                 <div class="mt-3">
-                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">SIGN UP</a>
+                  <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="/si2/">SIGN UP</a>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
-                  Already have an account? <a href="login.html" class="text-primary">Login</a>
+                  Already have an account? <a href="/si2/user-admin-samples/login" class="text-primary">Login</a>
                 </div>
               </form>
             </div>
@@ -74,15 +63,10 @@
     <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
-  <!-- plugins:js -->
-  <script src="../../vendors/base/vendor.bundle.base.js"></script>
-  <!-- endinject -->
-  <!-- inject:js -->
-  <script src="../../js/off-canvas.js"></script>
-  <script src="../../js/hoverable-collapse.js"></script>
-  <script src="../../js/template.js"></script>
-  <script src="../../js/todolist.js"></script>
-  <!-- endinject -->
+
+  <!-- partial:partials/_scripts.jsp -->
+  <%@include file="../../_partials/_scripts.jsp" %>
+  <!-- partial -->
 </body>
 
 </html>
