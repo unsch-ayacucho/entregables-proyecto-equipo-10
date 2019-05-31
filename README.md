@@ -12,7 +12,7 @@ Final project for the university subject "Sistemás de Información II" - U.N.S.
 First of all, clone the repository.
 
 ```
-git@github.com:gedzeppelin/SI2.git
+git@github.com:unsch-ayacucho/entregables-proyecto-equipo-10.git
 ```
 
 ### Compile the project to a .war file
