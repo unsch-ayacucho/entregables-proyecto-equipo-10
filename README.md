@@ -1,4 +1,4 @@
-# SI2 FINALPROJECT
+# SI2 FINAL PROJECT
 ## Description
 Final project for the university subject "Sistemás de Información II" - U.N.S.C.H.
 
