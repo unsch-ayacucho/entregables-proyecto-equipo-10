@@ -11,10 +11,20 @@
 
     <context:component-scan base-package="pe.edu.unsch" />
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+    <bean id="templateResolver"
+          class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
         <property name="prefix" value="/WEB-INF/views/" />
-        <property name="suffix" value=".jsp" />
+        <property name="suffix" value=".html" />
+        <property name="templateMode" value="HTML5" />
+    </bean>
+
+    <bean id="templateEngine"
+          class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="templateResolver" />
+    </bean>
+
+    <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="templateEngine" />
     </bean>
 
     <mvc:resources mapping="/assets/**" location="/resources/" />

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 7, 2019, 2:47:26 PM by Hibernate Tools 4.3.2-SNAPSHOT -->
+<hibernate-mapping>
+    <class name="pe.edu.unsch.hibernate.UsuarioPerfil" table="usuario_perfil" catalog="test" optimistic-lock="version">
+        <id name="idusuarioperfil" type="java.lang.Integer">
+            <column name="idusuarioperfil" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="perfil" class="pe.edu.unsch.hibernate.Perfil" fetch="select">
+            <column name="idperfil" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuario" class="pe.edu.unsch.hibernate.Usuario" fetch="select">
+            <column name="idusuario" not-null="true" />
+        </many-to-one>
+        <property name="estado" type="java.lang.Byte">
+            <column name="estado" />
+        </property>
+    </class>
+</hibernate-mapping>

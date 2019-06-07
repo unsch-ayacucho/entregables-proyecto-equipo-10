@@ -1,0 +1,102 @@
+package pe.edu.unsch.hibernate;
+
+import java.io.Serializable;
+
+public class Modulo implements Serializable {
+
+  private int idmodulo;
+  private String nombre;
+  private String icono;
+  private byte estado;
+
+
+	/**
+	* Default empty Modulo constructor
+	*/
+	public Modulo() {
+		super();
+	}
+
+	/**
+	* Default Modulo constructor
+	*/
+	public Modulo(String nombre, String icono, byte estado) {
+		super();
+		this.nombre = nombre;
+		this.icono = icono;
+		this.estado = estado;
+	}
+
+	/**
+	* Returns value of idmodulo
+	* @return
+	*/
+	public int getIdmodulo() {
+		return idmodulo;
+	}
+
+	/**
+	* Sets new value of idmodulo
+	* @param
+	*/
+	public void setIdmodulo(int idmodulo) {
+		this.idmodulo = idmodulo;
+	}
+
+	/**
+	* Returns value of nombre
+	* @return
+	*/
+	public String getNombre() {
+		return nombre;
+	}
+
+	/**
+	* Sets new value of nombre
+	* @param
+	*/
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	/**
+	* Returns value of icono
+	* @return
+	*/
+	public String getIcono() {
+		return icono;
+	}
+
+	/**
+	* Sets new value of icono
+	* @param
+	*/
+	public void setIcono(String icono) {
+		this.icono = icono;
+	}
+
+	/**
+	* Returns value of estado
+	* @return
+	*/
+	public byte getEstado() {
+		return estado;
+	}
+
+	/**
+	* Sets new value of estado
+	* @param
+	*/
+	public void setEstado(byte estado) {
+		this.estado = estado;
+	}
+
+	/**
+	* Create string representation of Modulo for printing
+	* @return
+	*/
+	@Override
+	public String toString() {
+		return "Modulo [idmodulo=" + idmodulo + ", nombre=" + nombre + ", icono=" + icono + ", estado=" + estado + "]";
+	}
+}

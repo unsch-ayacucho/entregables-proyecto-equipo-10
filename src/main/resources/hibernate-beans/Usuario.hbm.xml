@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 7, 2019, 2:47:26 PM by Hibernate Tools 4.3.2-SNAPSHOT -->
+<hibernate-mapping>
+    <class name="pe.edu.unsch.hibernate.Usuario" table="usuario" catalog="test" optimistic-lock="version">
+        <id name="idusuario" type="java.lang.Integer">
+            <column name="idusuario" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario" length="45" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="45" />
+        </property>
+        <property name="foto" type="string">
+            <column name="foto" length="100" />
+        </property>
+        <property name="estado" type="java.lang.Byte">
+            <column name="estado" />
+        </property>
+        <property name="ultimoLogin" type="timestamp">
+            <column name="ultimo_login" length="19" />
+        </property>
+        <set name="usuarioPerfils" table="usuario_perfil" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idusuario" not-null="true" />
+            </key>
+            <one-to-many class="pe.edu.unsch.hibernate.UsuarioPerfil" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 7, 2019, 2:47:26 PM by Hibernate Tools 4.3.2-SNAPSHOT -->
+<hibernate-mapping>
+    <class name="pe.edu.unsch.hibernate.Perfil" table="perfil" catalog="test" optimistic-lock="version">
+        <id name="idperfil" type="java.lang.Integer">
+            <column name="idperfil" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" />
+        </property>
+        <set name="usuarioPerfils" table="usuario_perfil" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idperfil" not-null="true" />
+            </key>
+            <one-to-many class="pe.edu.unsch.hibernate.UsuarioPerfil" />
+        </set>
+        <set name="perfilOpcions" table="perfil_opcion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idperfil" not-null="true" />
+            </key>
+            <one-to-many class="pe.edu.unsch.hibernate.PerfilOpcion" />
+        </set>
+    </class>
+</hibernate-mapping>

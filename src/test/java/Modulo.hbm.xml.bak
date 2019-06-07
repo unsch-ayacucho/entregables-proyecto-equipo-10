@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="pe.edu.unsch.hibernate.Modulo" table="modulo">
+
+        <id name="idmodulo" type="int" column="idmodulo">
+            <generator class="native" />
+        </id>
+
+        <property name="nombre" column="nombre" type="string"/>
+        <property name="icono" column="icono" type="string"/>
+        <property name="estado" column="estado" type="byte"/>
+
+    </class>
+</hibernate-mapping>

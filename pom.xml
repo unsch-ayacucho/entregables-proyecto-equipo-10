@@ -26,6 +26,12 @@
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -50,24 +56,51 @@
       <artifactId>spring-expression</artifactId>
       <version>${spring.version}</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+    <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>4.0.1</version>
-      <scope>compile</scope>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf</artifactId>
+      <version>${thymeleaf.version}</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
+    <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf-spring5</artifactId>
+      <version>${thymeleaf.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql.version}</version>
     </dependency>
   </dependencies>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <spring.version>5.1.7.RELEASE</spring.version>
+    <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
+    <hibernate.version>5.4.3.Final</hibernate.version>
+    <mysql.version>8.0.16</mysql.version>
+    <ant.hibernate.version>4.3.2.Final</ant.hibernate.version>
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -102,6 +135,180 @@
             <useIncrementalCompilation>false</useIncrementalCompilation>
           </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <!-- EXECUTIONS -->
+        <executions>
+          <!-- Generate hibernate.cfg.xml from hibernate.template.cfg.xml -->
+          <execution>
+            <id>hbm2cfgxml</id>
+            <phase>none</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <echo message="Start generating root cfg-xml..."/>
+                <taskdef name="hibernatetool"
+                         classname="org.hibernate.tool.ant.HibernateToolTask"/>
+                <hibernatetool>
+                  <jdbcconfiguration revengfile="src/main/resources/hibernate.reveng.xml"
+                                     packagename="hibernate-beans"
+                                     configurationfile="src/main/resources/hibernate.template.cfg.xml"/>
+                  <hbm2cfgxml destdir="src/main/resources/" />
+                </hibernatetool>
+                <echo message="End generating root cfg-xml"/>
+              </target>
+            </configuration>
+          </execution>
+          <!-- Generate *.hbm.xml from template -->
+          <execution>
+            <id>hbm2hbmxml</id>
+            <phase>none</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <echo message="Start generating entities hbm-xml..."/>
+                <taskdef name="hibernatetool"
+                         classname="org.hibernate.tool.ant.HibernateToolTask"/>
+                <hibernatetool>
+                  <jdbcconfiguration revengfile="src/main/resources/hibernate.reveng.xml"
+                                     packagename="pe.edu.unsch.hibernate"
+                                     configurationfile="src/main/resources/hibernate.template.cfg.xml"/>
+                  <hbmtemplate destdir="src/main/resources/hibernate-beans"
+                               templateprefix="hbm/"
+                               template="hbm/hibernate-mapping.hbm.ftl"
+                               filepattern="{class-name}.hbm.xml">
+                  </hbmtemplate>
+                </hibernatetool>
+                <echo message="End generating entities hbm-xml"/>
+              </target>
+            </configuration>
+          </execution>
+          <!-- Generate *.java -->
+          <execution>
+            <id>hbm2java</id>
+            <phase>none</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <echo message="Start generating .java entities..."/>
+                <taskdef name="hibernatetool"
+                         classname="org.hibernate.tool.ant.HibernateToolTask"/>
+                <hibernatetool>
+                  <jdbcconfiguration revengfile="src/main/resources/hibernate.reveng.xml"
+                                     packagename="pe.edu.unsch.hibernate"
+                                     detectmanytomany="true"
+                                     configurationfile="src/main/resources/hibernate.template.cfg.xml"/>
+                  <hbm2java destdir="src/main/java" jdk5="true" ejb3="true"/>
+                </hibernatetool>
+                <echo message="End generating .java entities"/>
+              </target>
+            </configuration>
+          </execution>
+
+          <!-- <execution>
+            <id>hbm2dao</id>
+            <phase>generate-sources</phase>
+              <goals>
+                <goal>hbm2dao</goal>
+              </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <components>
+                <component>
+                  <name>hbm2dao</name>
+                  <implementation>configuration</implementation>
+                </component>
+              </components>
+            <componentProperties>
+            <packagename>package.name</packagename>
+            <configurationfile>target/hibernate3/generated-mappings/hibernate.cfg.xml</configurationfile>
+              </componentProperties>
+            </configuration>
+            </execution> -->
+          </executions>
+
+          <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+            <dependency>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate-core</artifactId>
+              <version>${ant.hibernate.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+            <dependency>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate-entitymanager</artifactId>
+              <version>${ant.hibernate.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-tools -->
+            <dependency>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate-tools</artifactId>
+              <version>${ant.hibernate.version}</version>
+              <exclusions>
+                <exclusion>
+                  <groupId>*</groupId>
+                  <artifactId>*</artifactId>
+                </exclusion>
+              </exclusions>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
+            <dependency>
+              <groupId>org.hibernate.common</groupId>
+              <artifactId>hibernate-commons-annotations</artifactId>
+              <version>4.0.5.Final</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+            <dependency>
+              <groupId>org.hibernate.javax.persistence</groupId>
+              <artifactId>hibernate-jpa-2.1-api</artifactId>
+              <version>1.0.2.Final</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+            <dependency>
+              <groupId>mysql</groupId>
+              <artifactId>mysql-connector-java</artifactId>
+              <version>${mysql.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+            <dependency>
+              <groupId>org.freemarker</groupId>
+              <artifactId>freemarker</artifactId>
+              <version>2.3.28</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.transaction/jta -->
+            <dependency>
+              <groupId>javax.transaction</groupId>
+              <artifactId>jta</artifactId>
+              <version>1.1</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+            <dependency>
+              <groupId>commons-logging</groupId>
+              <artifactId>commons-logging</artifactId>
+              <version>1.2</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-collections/commons-collections -->
+            <dependency>
+              <groupId>commons-collections</groupId>
+              <artifactId>commons-collections</artifactId>
+              <version>3.2.2</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/net.sf.jtidy/jtidy -->
+            <dependency>
+              <groupId>net.sf.jtidy</groupId>
+              <artifactId>jtidy</artifactId>
+              <version>r938</version>
+            </dependency>
+          </dependencies>
+        </plugin>
     </plugins>
   </build>
 
