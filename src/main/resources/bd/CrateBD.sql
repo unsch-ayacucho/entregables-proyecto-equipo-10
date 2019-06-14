@@ -64,6 +64,15 @@ DROP TABLE IF EXISTS `TablaEvDetalle` CASCADE
 
 /* Create Tables */
 
+CREATE TABLE `Usuario`
+(
+	`idusuario` BIGINU NOT NULL,
+	`usuario` VARCHAR(50) NOT NULL,
+	`password` VARCHAR(50) NOT NULL,
+	`foto` VARCHAR(100),
+	CONSTRAINT `PK_Usuario` PRIMARY KEY (`idcalendario` ASC)
+)
+
 CREATE TABLE `Calendario`
 (
 	`idcalendario` BIGINT NOT NULL,
@@ -138,6 +147,7 @@ CREATE TABLE `ConsejoUniversitario`
 CREATE TABLE `Docente`
 (
 	`iddocente` BIGINT NOT NULL,
+	`idusuario` BIGINT NOT NULL,
 	`nombres` VARCHAR(50) NOT NULL,
 	`apepaterno` VARCHAR(50) NOT NULL,
 	`apematerno` VARCHAR(50) NOT NULL,
@@ -325,6 +335,11 @@ ALTER TABLE `TablaEvDetalle`
 ;
 
 /* Create Foreign Key Constraints */
+
+ALTER TABLE `Docente` 
+ ADD CONSTRAINT `FK_Promocion_Usuario`
+	FOREIGN KEY (`idusuario`) REFERENCES `Usuario` (`idusuario`) ON DELETE Restrict ON UPDATE Restrict
+;
 
 ALTER TABLE `CalendarioDetalle` 
  ADD CONSTRAINT `FK_CalendarioDetalle_Calendario`
