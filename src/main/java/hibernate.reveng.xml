@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="test" match-name="Calendario"/>
+  <table-filter match-catalog="test" match-name="CalendarioDetalle"/>
+  <table-filter match-catalog="test" match-name="Categoria"/>
+  <table-filter match-catalog="test" match-name="Comision"/>
+  <table-filter match-catalog="test" match-name="ComisionMiembro"/>
+  <table-filter match-catalog="test" match-name="ConsejoFacultad"/>
+  <table-filter match-catalog="test" match-name="ConsejoUniversitario"/>
+  <table-filter match-catalog="test" match-name="Docente"/>
+  <table-filter match-catalog="test" match-name="Informe"/>
+  <table-filter match-catalog="test" match-name="InformeCF"/>
+  <table-filter match-catalog="test" match-name="InformeCU"/>
+  <table-filter match-catalog="test" match-name="InformeDetalle"/>
+  <table-filter match-catalog="test" match-name="JefeDepartamento"/>
+  <table-filter match-catalog="test" match-name="Promocion"/>
+  <table-filter match-catalog="test" match-name="Resolucion"/>
+  <table-filter match-catalog="test" match-name="TablaEv"/>
+  <table-filter match-catalog="test" match-name="TablaEvDetalle"/>
+</hibernate-reverse-engineering>

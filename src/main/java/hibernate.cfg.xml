@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory name="">
+  <!-- <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/categorizaciondb</property>
+  <property name="hibernate.connection.username">root</property> -->
+  <mapping class="pe.edu.unsch.entities.Calendario"/>
+  <mapping class="pe.edu.unsch.entities.CalendarioDetalle"/>
+  <mapping class="pe.edu.unsch.entities.Categoria"/>
+  <mapping class="pe.edu.unsch.entities.Comision"/>
+  <mapping class="pe.edu.unsch.entities.ComisionMiembro"/>
+  <mapping class="pe.edu.unsch.entities.ConsejoFacultad"/>
+  <mapping class="pe.edu.unsch.entities.ConsejoUniversitario"/>
+  <mapping class="pe.edu.unsch.entities.Docente"/>
+  <mapping class="pe.edu.unsch.entities.Informe"/>
+  <mapping class="pe.edu.unsch.entities.InformeCF"/>
+  <mapping class="pe.edu.unsch.entities.InformeCU"/>
+  <mapping class="pe.edu.unsch.entities.InformeDetalle"/>
+  <mapping class="pe.edu.unsch.entities.JefeDepartamento"/>
+  <mapping class="pe.edu.unsch.entities.Resolucion"/>
+  <mapping class="pe.edu.unsch.entities.TablaEv"/>
+  <mapping class="pe.edu.unsch.entities.TablaEvDetalle"/>
+ </session-factory>
+</hibernate-configuration>
