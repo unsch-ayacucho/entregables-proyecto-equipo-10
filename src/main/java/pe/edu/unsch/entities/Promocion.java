@@ -1,4 +1,4 @@
-package pe.edu.unsch.hibernate;
+package pe.edu.unsch.entities;
 // Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
@@ -21,7 +21,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="Promocion"
-    ,catalog="test"
+    ,catalog="categorizacionbd"
 )
 public class Promocion  implements java.io.Serializable {
 

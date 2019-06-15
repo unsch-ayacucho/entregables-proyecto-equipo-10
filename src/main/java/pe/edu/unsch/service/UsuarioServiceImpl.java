@@ -1,9 +1,25 @@
 package pe.edu.unsch.service;
 
-public class UsuarioServiceImpl {
+import javax.transaction.Transactional;
 
-	public UsuarioServiceImpl() {
-		// TODO Auto-generated constructor stub
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pe.edu.unsch.dao.UsuarioDao;
+import pe.edu.unsch.entities.Usuario;
+
+@Service("usuarioService")
+@Transactional
+public class UsuarioServiceImpl implements UsuarioService{
+	
+	@Autowired
+	private UsuarioDao usuarioDao;
+	
+	@Override
+	public Usuario login(String usuario, String password) {
+		return usuarioDao.login(usuario, password);
 	}
-
+	
 }
+
+

@@ -66,12 +66,14 @@ DROP TABLE IF EXISTS `TablaEvDetalle` CASCADE
 
 CREATE TABLE `Usuario`
 (
-	`idusuario` BIGINU NOT NULL,
+	`idusuario` BIGINT NOT NULL,
 	`usuario` VARCHAR(50) NOT NULL,
 	`password` VARCHAR(50) NOT NULL,
 	`foto` VARCHAR(100),
-	CONSTRAINT `PK_Usuario` PRIMARY KEY (`idcalendario` ASC)
+	CONSTRAINT `PK_Usuario` PRIMARY KEY (`idusuario` ASC)
 )
+
+;
 
 CREATE TABLE `Calendario`
 (

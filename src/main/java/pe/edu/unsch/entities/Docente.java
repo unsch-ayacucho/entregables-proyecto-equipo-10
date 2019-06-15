@@ -1,5 +1,5 @@
-package pe.edu.unsch.hibernate;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.entities;
+// Generated Jun 14, 2019, 5:22:01 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.HashSet;
@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -16,12 +18,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="Docente"
-    ,catalog="test"
+    ,catalog="categorizacionbd"
 )
 public class Docente  implements java.io.Serializable {
 
 
      private long iddocente;
+     private Usuario usuario;
      private String nombres;
      private String apepaterno;
      private String apematerno;
@@ -34,15 +37,17 @@ public class Docente  implements java.io.Serializable {
     }
 
 	
-    public Docente(long iddocente, String nombres, String apepaterno, String apematerno, String nrodoc) {
+    public Docente(long iddocente, Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc) {
         this.iddocente = iddocente;
+        this.usuario = usuario;
         this.nombres = nombres;
         this.apepaterno = apepaterno;
         this.apematerno = apematerno;
         this.nrodoc = nrodoc;
     }
-    public Docente(long iddocente, String nombres, String apepaterno, String apematerno, String nrodoc, String cargo, Set<Promocion> promocions, Set<ComisionMiembro> comisionMiembros) {
+    public Docente(long iddocente, Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc, String cargo, Set<Promocion> promocions, Set<ComisionMiembro> comisionMiembros) {
        this.iddocente = iddocente;
+       this.usuario = usuario;
        this.nombres = nombres;
        this.apepaterno = apepaterno;
        this.apematerno = apematerno;
@@ -62,6 +67,16 @@ public class Docente  implements java.io.Serializable {
     
     public void setIddocente(long iddocente) {
         this.iddocente = iddocente;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idusuario", nullable=false)
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+    
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     

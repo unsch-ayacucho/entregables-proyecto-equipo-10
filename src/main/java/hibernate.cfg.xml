@@ -22,5 +22,6 @@
   <mapping class="pe.edu.unsch.entities.Resolucion"/>
   <mapping class="pe.edu.unsch.entities.TablaEv"/>
   <mapping class="pe.edu.unsch.entities.TablaEvDetalle"/>
+  <mapping class="pe.edu.unsch.entities.Usuario"/>
  </session-factory>
 </hibernate-configuration>
