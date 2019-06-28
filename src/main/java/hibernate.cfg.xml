@@ -19,6 +19,7 @@
   <mapping class="pe.edu.unsch.entities.InformeCU"/>
   <mapping class="pe.edu.unsch.entities.InformeDetalle"/>
   <mapping class="pe.edu.unsch.entities.JefeDepartamento"/>
+  <mapping class="pe.edu.unsch.entities.Promocion"/>
   <mapping class="pe.edu.unsch.entities.Resolucion"/>
   <mapping class="pe.edu.unsch.entities.TablaEv"/>
   <mapping class="pe.edu.unsch.entities.TablaEvDetalle"/>
