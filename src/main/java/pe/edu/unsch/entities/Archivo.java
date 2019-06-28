@@ -1,11 +1,13 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,39 +25,33 @@ import javax.persistence.TemporalType;
 public class Archivo  implements java.io.Serializable {
 
 
-     private long idarchivo;
+     private Long idarchivo;
      private Docente docente;
      private String nombre;
+     private String tipo;
      private byte[] data;
      private Date fecha;
 
     public Archivo() {
     }
 
-    public Archivo(long idarchivo, Docente docente, String nombre, byte[] data, Date fecha) {
-       this.idarchivo = idarchivo;
+    public Archivo(Docente docente, String nombre, String tipo, byte[] data, Date fecha) {
        this.docente = docente;
        this.nombre = nombre;
+       this.tipo = tipo;
        this.data = data;
        this.fecha = fecha;
     }
-    
-    public Archivo(long idarchivo, String nombre, byte[] data, Date fecha) {
-        this.idarchivo = idarchivo;
-        this.nombre = nombre;
-        this.data = data;
-        this.fecha = fecha;
-     }
-    
-     @Id 
+   
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idarchivo", unique=true, nullable=false)
-    public long getIdarchivo() {
+    public Long getIdarchivo() {
         return this.idarchivo;
     }
     
-    public void setIdarchivo(long idarchivo) {
+    public void setIdarchivo(Long idarchivo) {
         this.idarchivo = idarchivo;
     }
 
@@ -77,6 +73,16 @@ public class Archivo  implements java.io.Serializable {
     
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    
+    @Column(name="tipo", nullable=false, length=5)
+    public String getTipo() {
+        return this.tipo;
+    }
+    
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     

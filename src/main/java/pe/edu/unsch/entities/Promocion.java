@@ -1,5 +1,5 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +28,7 @@ import javax.persistence.TemporalType;
 public class Promocion  implements java.io.Serializable {
 
 
-     private long idpromocion;
+     private Long idpromocion;
      private Categoria categoria;
      private Docente docente;
      private String solicitud;
@@ -38,16 +40,14 @@ public class Promocion  implements java.io.Serializable {
     }
 
 	
-    public Promocion(long idpromocion, Categoria categoria, Docente docente, String solicitud, String expediente, Date fechaSolicitud) {
-        this.idpromocion = idpromocion;
+    public Promocion(Categoria categoria, Docente docente, String solicitud, String expediente, Date fechaSolicitud) {
         this.categoria = categoria;
         this.docente = docente;
         this.solicitud = solicitud;
         this.expediente = expediente;
         this.fechaSolicitud = fechaSolicitud;
     }
-    public Promocion(long idpromocion, Categoria categoria, Docente docente, String solicitud, String expediente, Date fechaSolicitud, Set<Informe> informes) {
-       this.idpromocion = idpromocion;
+    public Promocion(Categoria categoria, Docente docente, String solicitud, String expediente, Date fechaSolicitud, Set<Informe> informes) {
        this.categoria = categoria;
        this.docente = docente;
        this.solicitud = solicitud;
@@ -56,15 +56,15 @@ public class Promocion  implements java.io.Serializable {
        this.informes = informes;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idpromocion", unique=true, nullable=false)
-    public long getIdpromocion() {
+    public Long getIdpromocion() {
         return this.idpromocion;
     }
     
-    public void setIdpromocion(long idpromocion) {
+    public void setIdpromocion(Long idpromocion) {
         this.idpromocion = idpromocion;
     }
 

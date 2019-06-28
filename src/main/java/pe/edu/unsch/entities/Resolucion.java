@@ -1,10 +1,12 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,7 +22,7 @@ import javax.persistence.Table;
 public class Resolucion  implements java.io.Serializable {
 
 
-     private long idresolucion;
+     private Long idresolucion;
      private ConsejoUniversitario consejoUniversitario;
      private String nro;
      private String resumen;
@@ -30,29 +32,27 @@ public class Resolucion  implements java.io.Serializable {
     }
 
 	
-    public Resolucion(long idresolucion, String nro, String resumen, String contenido) {
-        this.idresolucion = idresolucion;
+    public Resolucion(String nro, String resumen, String contenido) {
         this.nro = nro;
         this.resumen = resumen;
         this.contenido = contenido;
     }
-    public Resolucion(long idresolucion, ConsejoUniversitario consejoUniversitario, String nro, String resumen, String contenido) {
-       this.idresolucion = idresolucion;
+    public Resolucion(ConsejoUniversitario consejoUniversitario, String nro, String resumen, String contenido) {
        this.consejoUniversitario = consejoUniversitario;
        this.nro = nro;
        this.resumen = resumen;
        this.contenido = contenido;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idresolucion", unique=true, nullable=false)
-    public long getIdresolucion() {
+    public Long getIdresolucion() {
         return this.idresolucion;
     }
     
-    public void setIdresolucion(long idresolucion) {
+    public void setIdresolucion(Long idresolucion) {
         this.idresolucion = idresolucion;
     }
 

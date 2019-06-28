@@ -1,5 +1,5 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,9 +28,9 @@ import javax.persistence.TemporalType;
 public class Docente  implements java.io.Serializable {
 
 
-     private long iddocente;
+     private Long iddocente;
      private Usuario usuario;
-     private String cargo;
+     private String categoria;
      private String nombres;
      private String apepaterno;
      private String apematerno;
@@ -45,20 +47,18 @@ public class Docente  implements java.io.Serializable {
     }
 
 	
-    public Docente(long iddocente, Usuario usuario, String cargo, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaNacimiento) {
-        this.iddocente = iddocente;
+    public Docente(Usuario usuario, String categoria, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaNacimiento) {
         this.usuario = usuario;
-        this.cargo = cargo;
+        this.categoria = categoria;
         this.nombres = nombres;
         this.apepaterno = apepaterno;
         this.apematerno = apematerno;
         this.nrodoc = nrodoc;
         this.fechaNacimiento = fechaNacimiento;
     }
-    public Docente(long iddocente, Usuario usuario, String cargo, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaNacimiento, String domicilio, String celular, String sexo, Set<Promocion> promocions, Set<Archivo> archivos, Set<ComisionMiembro> comisionMiembros) {
-       this.iddocente = iddocente;
+    public Docente(Usuario usuario, String categoria, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaNacimiento, String domicilio, String celular, String sexo, Set<Promocion> promocions, Set<Archivo> archivos, Set<ComisionMiembro> comisionMiembros) {
        this.usuario = usuario;
-       this.cargo = cargo;
+       this.categoria = categoria;
        this.nombres = nombres;
        this.apepaterno = apepaterno;
        this.apematerno = apematerno;
@@ -72,15 +72,15 @@ public class Docente  implements java.io.Serializable {
        this.comisionMiembros = comisionMiembros;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="iddocente", unique=true, nullable=false)
-    public long getIddocente() {
+    public Long getIddocente() {
         return this.iddocente;
     }
     
-    public void setIddocente(long iddocente) {
+    public void setIddocente(Long iddocente) {
         this.iddocente = iddocente;
     }
 
@@ -95,13 +95,13 @@ public class Docente  implements java.io.Serializable {
     }
 
     
-    @Column(name="cargo", nullable=false, length=50)
-    public String getCargo() {
-        return this.cargo;
+    @Column(name="categoria", nullable=false, length=50)
+    public String getCategoria() {
+        return this.categoria;
     }
     
-    public void setCargo(String cargo) {
-        this.cargo = cargo;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     

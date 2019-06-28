@@ -1,10 +1,12 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,28 +22,27 @@ import javax.persistence.Table;
 public class ComisionMiembro  implements java.io.Serializable {
 
 
-     private long idcomisionmiembro;
+     private Long idcomisionmiembro;
      private Comision comision;
      private Docente docente;
 
     public ComisionMiembro() {
     }
 
-    public ComisionMiembro(long idcomisionmiembro, Comision comision, Docente docente) {
-       this.idcomisionmiembro = idcomisionmiembro;
+    public ComisionMiembro(Comision comision, Docente docente) {
        this.comision = comision;
        this.docente = docente;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idcomisionmiembro", unique=true, nullable=false)
-    public long getIdcomisionmiembro() {
+    public Long getIdcomisionmiembro() {
         return this.idcomisionmiembro;
     }
     
-    public void setIdcomisionmiembro(long idcomisionmiembro) {
+    public void setIdcomisionmiembro(Long idcomisionmiembro) {
         this.idcomisionmiembro = idcomisionmiembro;
     }
 

@@ -1,5 +1,5 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +28,7 @@ import javax.persistence.TemporalType;
 public class JefeDepartamento  implements java.io.Serializable {
 
 
-     private long idjefedepartamento;
+     private Long idjefedepartamento;
      private Usuario usuario;
      private String nombres;
      private String apepaterno;
@@ -43,8 +45,7 @@ public class JefeDepartamento  implements java.io.Serializable {
     }
 
 	
-    public JefeDepartamento(long idjefedepartamento, Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaDesigno, Date fechaNacimiento) {
-        this.idjefedepartamento = idjefedepartamento;
+    public JefeDepartamento(Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaDesigno, Date fechaNacimiento) {
         this.usuario = usuario;
         this.nombres = nombres;
         this.apepaterno = apepaterno;
@@ -53,8 +54,7 @@ public class JefeDepartamento  implements java.io.Serializable {
         this.fechaDesigno = fechaDesigno;
         this.fechaNacimiento = fechaNacimiento;
     }
-    public JefeDepartamento(long idjefedepartamento, Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc, String domicilio, String celular, String sexo, Date fechaDesigno, Date fechaNacimiento, Set<Comision> comisions) {
-       this.idjefedepartamento = idjefedepartamento;
+    public JefeDepartamento(Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc, String domicilio, String celular, String sexo, Date fechaDesigno, Date fechaNacimiento, Set<Comision> comisions) {
        this.usuario = usuario;
        this.nombres = nombres;
        this.apepaterno = apepaterno;
@@ -68,15 +68,15 @@ public class JefeDepartamento  implements java.io.Serializable {
        this.comisions = comisions;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idjefedepartamento", unique=true, nullable=false)
-    public long getIdjefedepartamento() {
+    public Long getIdjefedepartamento() {
         return this.idjefedepartamento;
     }
     
-    public void setIdjefedepartamento(long idjefedepartamento) {
+    public void setIdjefedepartamento(Long idjefedepartamento) {
         this.idjefedepartamento = idjefedepartamento;
     }
 

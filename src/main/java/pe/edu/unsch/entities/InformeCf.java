@@ -1,10 +1,12 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,7 +22,7 @@ import javax.persistence.Table;
 public class InformeCf  implements java.io.Serializable {
 
 
-     private long idinformecf;
+     private Long idinformecf;
      private ConsejoFacultad consejoFacultad;
      private Informe informe;
      private boolean aprobado;
@@ -29,23 +31,22 @@ public class InformeCf  implements java.io.Serializable {
     public InformeCf() {
     }
 
-    public InformeCf(long idinformecf, ConsejoFacultad consejoFacultad, Informe informe, boolean aprobado, String detalle) {
-       this.idinformecf = idinformecf;
+    public InformeCf(ConsejoFacultad consejoFacultad, Informe informe, boolean aprobado, String detalle) {
        this.consejoFacultad = consejoFacultad;
        this.informe = informe;
        this.aprobado = aprobado;
        this.detalle = detalle;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idinformecf", unique=true, nullable=false)
-    public long getIdinformecf() {
+    public Long getIdinformecf() {
         return this.idinformecf;
     }
     
-    public void setIdinformecf(long idinformecf) {
+    public void setIdinformecf(Long idinformecf) {
         this.idinformecf = idinformecf;
     }
 

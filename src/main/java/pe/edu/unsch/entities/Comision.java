@@ -1,5 +1,5 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +28,7 @@ import javax.persistence.TemporalType;
 public class Comision  implements java.io.Serializable {
 
 
-     private long idcomision;
+     private Long idcomision;
      private JefeDepartamento jefeDepartamento;
      private String nombre;
      private String razon;
@@ -38,15 +40,13 @@ public class Comision  implements java.io.Serializable {
     }
 
 	
-    public Comision(long idcomision, JefeDepartamento jefeDepartamento, String nombre, String razon, Date fechaCreacion) {
-        this.idcomision = idcomision;
+    public Comision(JefeDepartamento jefeDepartamento, String nombre, String razon, Date fechaCreacion) {
         this.jefeDepartamento = jefeDepartamento;
         this.nombre = nombre;
         this.razon = razon;
         this.fechaCreacion = fechaCreacion;
     }
-    public Comision(long idcomision, JefeDepartamento jefeDepartamento, String nombre, String razon, Date fechaCreacion, Set<ComisionMiembro> comisionMiembros, Set<Informe> informes) {
-       this.idcomision = idcomision;
+    public Comision(JefeDepartamento jefeDepartamento, String nombre, String razon, Date fechaCreacion, Set<ComisionMiembro> comisionMiembros, Set<Informe> informes) {
        this.jefeDepartamento = jefeDepartamento;
        this.nombre = nombre;
        this.razon = razon;
@@ -55,15 +55,15 @@ public class Comision  implements java.io.Serializable {
        this.informes = informes;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idcomision", unique=true, nullable=false)
-    public long getIdcomision() {
+    public Long getIdcomision() {
         return this.idcomision;
     }
     
-    public void setIdcomision(long idcomision) {
+    public void setIdcomision(Long idcomision) {
         this.idcomision = idcomision;
     }
 

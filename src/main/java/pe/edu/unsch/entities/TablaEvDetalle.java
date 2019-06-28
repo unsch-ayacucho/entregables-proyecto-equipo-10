@@ -1,5 +1,5 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.HashSet;
@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,7 +25,7 @@ import javax.persistence.Table;
 public class TablaEvDetalle  implements java.io.Serializable {
 
 
-     private long idtablaevdetalle;
+     private Long idtablaevdetalle;
      private TablaEv tablaEv;
      private String indicador;
      private String descripcion;
@@ -34,15 +36,13 @@ public class TablaEvDetalle  implements java.io.Serializable {
     }
 
 	
-    public TablaEvDetalle(long idtablaevdetalle, TablaEv tablaEv, String indicador, String descripcion, short puntaje) {
-        this.idtablaevdetalle = idtablaevdetalle;
+    public TablaEvDetalle(TablaEv tablaEv, String indicador, String descripcion, short puntaje) {
         this.tablaEv = tablaEv;
         this.indicador = indicador;
         this.descripcion = descripcion;
         this.puntaje = puntaje;
     }
-    public TablaEvDetalle(long idtablaevdetalle, TablaEv tablaEv, String indicador, String descripcion, short puntaje, Set<InformeDetalle> informeDetalles) {
-       this.idtablaevdetalle = idtablaevdetalle;
+    public TablaEvDetalle(TablaEv tablaEv, String indicador, String descripcion, short puntaje, Set<InformeDetalle> informeDetalles) {
        this.tablaEv = tablaEv;
        this.indicador = indicador;
        this.descripcion = descripcion;
@@ -50,15 +50,15 @@ public class TablaEvDetalle  implements java.io.Serializable {
        this.informeDetalles = informeDetalles;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idtablaevdetalle", unique=true, nullable=false)
-    public long getIdtablaevdetalle() {
+    public Long getIdtablaevdetalle() {
         return this.idtablaevdetalle;
     }
     
-    public void setIdtablaevdetalle(long idtablaevdetalle) {
+    public void setIdtablaevdetalle(Long idtablaevdetalle) {
         this.idtablaevdetalle = idtablaevdetalle;
     }
 

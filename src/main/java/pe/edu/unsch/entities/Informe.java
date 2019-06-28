@@ -1,5 +1,5 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +28,7 @@ import javax.persistence.TemporalType;
 public class Informe  implements java.io.Serializable {
 
 
-     private long idinforme;
+     private Long idinforme;
      private Comision comision;
      private Promocion promocion;
      private TablaEv tablaEv;
@@ -40,16 +42,14 @@ public class Informe  implements java.io.Serializable {
     }
 
 	
-    public Informe(long idinforme, Comision comision, Promocion promocion, TablaEv tablaEv, String nombre, Date fechaCreacion) {
-        this.idinforme = idinforme;
+    public Informe(Comision comision, Promocion promocion, TablaEv tablaEv, String nombre, Date fechaCreacion) {
         this.comision = comision;
         this.promocion = promocion;
         this.tablaEv = tablaEv;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
     }
-    public Informe(long idinforme, Comision comision, Promocion promocion, TablaEv tablaEv, String nombre, Date fechaCreacion, Set<InformeCf> informeCfs, Set<InformeCu> informeCus, Set<InformeDetalle> informeDetalles) {
-       this.idinforme = idinforme;
+    public Informe(Comision comision, Promocion promocion, TablaEv tablaEv, String nombre, Date fechaCreacion, Set<InformeCf> informeCfs, Set<InformeCu> informeCus, Set<InformeDetalle> informeDetalles) {
        this.comision = comision;
        this.promocion = promocion;
        this.tablaEv = tablaEv;
@@ -60,15 +60,15 @@ public class Informe  implements java.io.Serializable {
        this.informeDetalles = informeDetalles;
     }
    
-     @Id 
+     @Id @GeneratedValue(strategy=IDENTITY)
 
     
     @Column(name="idinforme", unique=true, nullable=false)
-    public long getIdinforme() {
+    public Long getIdinforme() {
         return this.idinforme;
     }
     
-    public void setIdinforme(long idinforme) {
+    public void setIdinforme(Long idinforme) {
         this.idinforme = idinforme;
     }
 
