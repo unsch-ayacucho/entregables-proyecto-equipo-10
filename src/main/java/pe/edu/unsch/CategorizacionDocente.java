@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Evaluacion360Application {
+public class CategorizacionDocente {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Evaluacion360Application.class, args);
+		SpringApplication.run(CategorizacionDocente.class, args);
 	}
 
 }
