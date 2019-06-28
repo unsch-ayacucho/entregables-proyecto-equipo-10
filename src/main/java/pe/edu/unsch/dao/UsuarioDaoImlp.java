@@ -23,7 +23,10 @@ public class UsuarioDaoImlp implements UsuarioDao {
 				.setParameter("password", password)
 				.getSingleResult();
 	}
-	
 
+	@Override
+	public Usuario datosUsuario(long l) {
+		return (Usuario) entityManager.find(Usuario.class, l);
+	}
 	
 }

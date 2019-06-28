@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.edu.unsch.service.ArchivoService;
+import pe.edu.unsch.service.UsuarioService;
 import pe.edu.unsch.entities.Archivo;
 import pe.edu.unsch.entities.Usuario;
 
@@ -34,6 +35,9 @@ public class HomeController {
 	@Autowired
 	private ArchivoService archivoService;
 	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@GetMapping("/home")
 	public String home(HttpSession session, Model model) {
 		try {
@@ -42,7 +46,6 @@ public class HomeController {
 			} else {
 				model.addAttribute("title", "Dashboard");
 				return "views/admin/home/index";
-				
 			}
 		} catch(NullPointerException npe) {
 			return "redirect:/login";
@@ -60,6 +63,21 @@ public class HomeController {
 				this.archivoService.listarDocumentos( ((Usuario) session.getAttribute("usuario")).getIdusuario() )  );
 				return "views/admin/home/documentos";
 				
+			}
+		} catch(NullPointerException npe) {
+			return "redirect:/login";
+		}
+	}
+	
+	@GetMapping("/usuario")
+	public String user(HttpSession session, Model model) {
+		try {
+			if(((Usuario) session.getAttribute("usuario")).getUsuario() == null || ((Usuario) session.getAttribute("usuario")).getUsuario().equals("")) {
+				return "redirect:/login";
+			} else {
+				model.addAttribute("title", "Usuario");
+				model.addAttribute("user", this.usuarioService.datosUsuario( (long) ((Usuario) session.getAttribute("usuario")).getIdusuario() )  );
+				return "views/admin/home/usuario";
 			}
 		} catch(NullPointerException npe) {
 			return "redirect:/login";

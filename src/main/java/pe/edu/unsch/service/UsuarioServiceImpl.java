@@ -19,6 +19,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public Usuario login(String usuario, String password) {
 		return usuarioDao.login(usuario, password);
 	}
+
+	@Override
+	public Usuario datosUsuario(long l) {
+		return usuarioDao.datosUsuario(l);
+	}
 	
 }
 
