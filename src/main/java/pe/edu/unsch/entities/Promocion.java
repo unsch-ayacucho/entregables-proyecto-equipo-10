@@ -1,11 +1,17 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,22 +27,33 @@ public class Promocion  implements java.io.Serializable {
 
 
      private long idpromocion;
-     private long iddocente;
-     private long idcategoria;
+     private Categoria categoria;
+     private Docente docente;
      private String solicitud;
      private String expediente;
      private Date fechaSolicitud;
+     private Set<Informe> informes = new HashSet<Informe>(0);
 
     public Promocion() {
     }
 
-    public Promocion(long idpromocion, long iddocente, long idcategoria, String solicitud, String expediente, Date fechaSolicitud) {
+	
+    public Promocion(long idpromocion, Categoria categoria, Docente docente, String solicitud, String expediente, Date fechaSolicitud) {
+        this.idpromocion = idpromocion;
+        this.categoria = categoria;
+        this.docente = docente;
+        this.solicitud = solicitud;
+        this.expediente = expediente;
+        this.fechaSolicitud = fechaSolicitud;
+    }
+    public Promocion(long idpromocion, Categoria categoria, Docente docente, String solicitud, String expediente, Date fechaSolicitud, Set<Informe> informes) {
        this.idpromocion = idpromocion;
-       this.iddocente = iddocente;
-       this.idcategoria = idcategoria;
+       this.categoria = categoria;
+       this.docente = docente;
        this.solicitud = solicitud;
        this.expediente = expediente;
        this.fechaSolicitud = fechaSolicitud;
+       this.informes = informes;
     }
    
      @Id 
@@ -51,24 +68,24 @@ public class Promocion  implements java.io.Serializable {
         this.idpromocion = idpromocion;
     }
 
-    
-    @Column(name="iddocente", nullable=false)
-    public long getIddocente() {
-        return this.iddocente;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idcategoria", nullable=false)
+    public Categoria getCategoria() {
+        return this.categoria;
     }
     
-    public void setIddocente(long iddocente) {
-        this.iddocente = iddocente;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
-    
-    @Column(name="idcategoria", nullable=false)
-    public long getIdcategoria() {
-        return this.idcategoria;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="iddocente", nullable=false)
+    public Docente getDocente() {
+        return this.docente;
     }
     
-    public void setIdcategoria(long idcategoria) {
-        this.idcategoria = idcategoria;
+    public void setDocente(Docente docente) {
+        this.docente = docente;
     }
 
     
@@ -99,6 +116,15 @@ public class Promocion  implements java.io.Serializable {
     
     public void setFechaSolicitud(Date fechaSolicitud) {
         this.fechaSolicitud = fechaSolicitud;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="promocion")
+    public Set<Informe> getInformes() {
+        return this.informes;
+    }
+    
+    public void setInformes(Set<Informe> informes) {
+        this.informes = informes;
     }
 
 

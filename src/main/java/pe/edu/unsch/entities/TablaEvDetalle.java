@@ -1,10 +1,16 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,20 +24,30 @@ public class TablaEvDetalle  implements java.io.Serializable {
 
 
      private long idtablaevdetalle;
-     private long idtablaev;
+     private TablaEv tablaEv;
      private String indicador;
      private String descripcion;
      private short puntaje;
+     private Set<InformeDetalle> informeDetalles = new HashSet<InformeDetalle>(0);
 
     public TablaEvDetalle() {
     }
 
-    public TablaEvDetalle(long idtablaevdetalle, long idtablaev, String indicador, String descripcion, short puntaje) {
+	
+    public TablaEvDetalle(long idtablaevdetalle, TablaEv tablaEv, String indicador, String descripcion, short puntaje) {
+        this.idtablaevdetalle = idtablaevdetalle;
+        this.tablaEv = tablaEv;
+        this.indicador = indicador;
+        this.descripcion = descripcion;
+        this.puntaje = puntaje;
+    }
+    public TablaEvDetalle(long idtablaevdetalle, TablaEv tablaEv, String indicador, String descripcion, short puntaje, Set<InformeDetalle> informeDetalles) {
        this.idtablaevdetalle = idtablaevdetalle;
-       this.idtablaev = idtablaev;
+       this.tablaEv = tablaEv;
        this.indicador = indicador;
        this.descripcion = descripcion;
        this.puntaje = puntaje;
+       this.informeDetalles = informeDetalles;
     }
    
      @Id 
@@ -46,14 +62,14 @@ public class TablaEvDetalle  implements java.io.Serializable {
         this.idtablaevdetalle = idtablaevdetalle;
     }
 
-    
-    @Column(name="idtablaev", nullable=false)
-    public long getIdtablaev() {
-        return this.idtablaev;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idtablaev", nullable=false)
+    public TablaEv getTablaEv() {
+        return this.tablaEv;
     }
     
-    public void setIdtablaev(long idtablaev) {
-        this.idtablaev = idtablaev;
+    public void setTablaEv(TablaEv tablaEv) {
+        this.tablaEv = tablaEv;
     }
 
     
@@ -84,6 +100,15 @@ public class TablaEvDetalle  implements java.io.Serializable {
     
     public void setPuntaje(short puntaje) {
         this.puntaje = puntaje;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="tablaEvDetalle")
+    public Set<InformeDetalle> getInformeDetalles() {
+        return this.informeDetalles;
+    }
+    
+    public void setInformeDetalles(Set<InformeDetalle> informeDetalles) {
+        this.informeDetalles = informeDetalles;
     }
 
 

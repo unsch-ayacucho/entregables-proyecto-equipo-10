@@ -1,10 +1,14 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,16 +26,28 @@ public class Usuario  implements java.io.Serializable {
      private String password;
      private String cargo;
      private boolean esAdmin;
+     private Set<Docente> docentes = new HashSet<Docente>(0);
+     private Set<JefeDepartamento> jefeDepartamentos = new HashSet<JefeDepartamento>(0);
 
     public Usuario() {
     }
 
+	
     public Usuario(long idusuario, String usuario, String password, String cargo, boolean esAdmin) {
+        this.idusuario = idusuario;
+        this.usuario = usuario;
+        this.password = password;
+        this.cargo = cargo;
+        this.esAdmin = esAdmin;
+    }
+    public Usuario(long idusuario, String usuario, String password, String cargo, boolean esAdmin, Set<Docente> docentes, Set<JefeDepartamento> jefeDepartamentos) {
        this.idusuario = idusuario;
        this.usuario = usuario;
        this.password = password;
        this.cargo = cargo;
        this.esAdmin = esAdmin;
+       this.docentes = docentes;
+       this.jefeDepartamentos = jefeDepartamentos;
     }
    
      @Id 
@@ -84,6 +100,24 @@ public class Usuario  implements java.io.Serializable {
     
     public void setEsAdmin(boolean esAdmin) {
         this.esAdmin = esAdmin;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+    public Set<Docente> getDocentes() {
+        return this.docentes;
+    }
+    
+    public void setDocentes(Set<Docente> docentes) {
+        this.docentes = docentes;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+    public Set<JefeDepartamento> getJefeDepartamentos() {
+        return this.jefeDepartamentos;
+    }
+    
+    public void setJefeDepartamentos(Set<JefeDepartamento> jefeDepartamentos) {
+        this.jefeDepartamentos = jefeDepartamentos;
     }
 
 

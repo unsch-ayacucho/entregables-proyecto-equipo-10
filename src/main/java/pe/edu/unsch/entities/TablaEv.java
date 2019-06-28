@@ -1,10 +1,14 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,12 +22,20 @@ public class TablaEv  implements java.io.Serializable {
 
 
      private long idtablaev;
+     private Set<TablaEvDetalle> tablaEvDetalles = new HashSet<TablaEvDetalle>(0);
+     private Set<Informe> informes = new HashSet<Informe>(0);
 
     public TablaEv() {
     }
 
+	
     public TablaEv(long idtablaev) {
+        this.idtablaev = idtablaev;
+    }
+    public TablaEv(long idtablaev, Set<TablaEvDetalle> tablaEvDetalles, Set<Informe> informes) {
        this.idtablaev = idtablaev;
+       this.tablaEvDetalles = tablaEvDetalles;
+       this.informes = informes;
     }
    
      @Id 
@@ -36,6 +48,24 @@ public class TablaEv  implements java.io.Serializable {
     
     public void setIdtablaev(long idtablaev) {
         this.idtablaev = idtablaev;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="tablaEv")
+    public Set<TablaEvDetalle> getTablaEvDetalles() {
+        return this.tablaEvDetalles;
+    }
+    
+    public void setTablaEvDetalles(Set<TablaEvDetalle> tablaEvDetalles) {
+        this.tablaEvDetalles = tablaEvDetalles;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="tablaEv")
+    public Set<Informe> getInformes() {
+        return this.informes;
+    }
+    
+    public void setInformes(Set<Informe> informes) {
+        this.informes = informes;
     }
 
 

@@ -1,11 +1,15 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,14 +27,22 @@ public class ConsejoFacultad  implements java.io.Serializable {
      private long idconsejofacultad;
      private String nombre;
      private Date fechaCreacion;
+     private Set<InformeCf> informeCfs = new HashSet<InformeCf>(0);
 
     public ConsejoFacultad() {
     }
 
+	
     public ConsejoFacultad(long idconsejofacultad, String nombre, Date fechaCreacion) {
+        this.idconsejofacultad = idconsejofacultad;
+        this.nombre = nombre;
+        this.fechaCreacion = fechaCreacion;
+    }
+    public ConsejoFacultad(long idconsejofacultad, String nombre, Date fechaCreacion, Set<InformeCf> informeCfs) {
        this.idconsejofacultad = idconsejofacultad;
        this.nombre = nombre;
        this.fechaCreacion = fechaCreacion;
+       this.informeCfs = informeCfs;
     }
    
      @Id 
@@ -63,6 +75,15 @@ public class ConsejoFacultad  implements java.io.Serializable {
     
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="consejoFacultad")
+    public Set<InformeCf> getInformeCfs() {
+        return this.informeCfs;
+    }
+    
+    public void setInformeCfs(Set<InformeCf> informeCfs) {
+        this.informeCfs = informeCfs;
     }
 
 

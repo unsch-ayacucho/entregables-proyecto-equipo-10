@@ -1,11 +1,17 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,24 +27,45 @@ public class JefeDepartamento  implements java.io.Serializable {
 
 
      private long idjefedepartamento;
-     private long idusuario;
+     private Usuario usuario;
      private String nombres;
      private String apepaterno;
      private String apematerno;
      private String nrodoc;
+     private String domicilio;
+     private String celular;
+     private String sexo;
      private Date fechaDesigno;
+     private Date fechaNacimiento;
+     private Set<Comision> comisions = new HashSet<Comision>(0);
 
     public JefeDepartamento() {
     }
 
-    public JefeDepartamento(long idjefedepartamento, long idusuario, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaDesigno) {
+	
+    public JefeDepartamento(long idjefedepartamento, Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaDesigno, Date fechaNacimiento) {
+        this.idjefedepartamento = idjefedepartamento;
+        this.usuario = usuario;
+        this.nombres = nombres;
+        this.apepaterno = apepaterno;
+        this.apematerno = apematerno;
+        this.nrodoc = nrodoc;
+        this.fechaDesigno = fechaDesigno;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+    public JefeDepartamento(long idjefedepartamento, Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc, String domicilio, String celular, String sexo, Date fechaDesigno, Date fechaNacimiento, Set<Comision> comisions) {
        this.idjefedepartamento = idjefedepartamento;
-       this.idusuario = idusuario;
+       this.usuario = usuario;
        this.nombres = nombres;
        this.apepaterno = apepaterno;
        this.apematerno = apematerno;
        this.nrodoc = nrodoc;
+       this.domicilio = domicilio;
+       this.celular = celular;
+       this.sexo = sexo;
        this.fechaDesigno = fechaDesigno;
+       this.fechaNacimiento = fechaNacimiento;
+       this.comisions = comisions;
     }
    
      @Id 
@@ -53,14 +80,14 @@ public class JefeDepartamento  implements java.io.Serializable {
         this.idjefedepartamento = idjefedepartamento;
     }
 
-    
-    @Column(name="idusuario", nullable=false)
-    public long getIdusuario() {
-        return this.idusuario;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idusuario", nullable=false)
+    public Usuario getUsuario() {
+        return this.usuario;
     }
     
-    public void setIdusuario(long idusuario) {
-        this.idusuario = idusuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     
@@ -103,6 +130,36 @@ public class JefeDepartamento  implements java.io.Serializable {
         this.nrodoc = nrodoc;
     }
 
+    
+    @Column(name="domicilio", length=100)
+    public String getDomicilio() {
+        return this.domicilio;
+    }
+    
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    
+    @Column(name="celular", length=9)
+    public String getCelular() {
+        return this.celular;
+    }
+    
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    
+    @Column(name="sexo", length=1)
+    public String getSexo() {
+        return this.sexo;
+    }
+    
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="fecha_designo", nullable=false, length=19)
     public Date getFechaDesigno() {
@@ -111,6 +168,25 @@ public class JefeDepartamento  implements java.io.Serializable {
     
     public void setFechaDesigno(Date fechaDesigno) {
         this.fechaDesigno = fechaDesigno;
+    }
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="fecha_nacimiento", nullable=false, length=19)
+    public Date getFechaNacimiento() {
+        return this.fechaNacimiento;
+    }
+    
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="jefeDepartamento")
+    public Set<Comision> getComisions() {
+        return this.comisions;
+    }
+    
+    public void setComisions(Set<Comision> comisions) {
+        this.comisions = comisions;
     }
 
 

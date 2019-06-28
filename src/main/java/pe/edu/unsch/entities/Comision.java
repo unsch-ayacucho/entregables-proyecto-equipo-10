@@ -1,11 +1,17 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -21,20 +27,32 @@ public class Comision  implements java.io.Serializable {
 
 
      private long idcomision;
-     private long idjefedepartamento;
+     private JefeDepartamento jefeDepartamento;
      private String nombre;
      private String razon;
      private Date fechaCreacion;
+     private Set<ComisionMiembro> comisionMiembros = new HashSet<ComisionMiembro>(0);
+     private Set<Informe> informes = new HashSet<Informe>(0);
 
     public Comision() {
     }
 
-    public Comision(long idcomision, long idjefedepartamento, String nombre, String razon, Date fechaCreacion) {
+	
+    public Comision(long idcomision, JefeDepartamento jefeDepartamento, String nombre, String razon, Date fechaCreacion) {
+        this.idcomision = idcomision;
+        this.jefeDepartamento = jefeDepartamento;
+        this.nombre = nombre;
+        this.razon = razon;
+        this.fechaCreacion = fechaCreacion;
+    }
+    public Comision(long idcomision, JefeDepartamento jefeDepartamento, String nombre, String razon, Date fechaCreacion, Set<ComisionMiembro> comisionMiembros, Set<Informe> informes) {
        this.idcomision = idcomision;
-       this.idjefedepartamento = idjefedepartamento;
+       this.jefeDepartamento = jefeDepartamento;
        this.nombre = nombre;
        this.razon = razon;
        this.fechaCreacion = fechaCreacion;
+       this.comisionMiembros = comisionMiembros;
+       this.informes = informes;
     }
    
      @Id 
@@ -49,14 +67,14 @@ public class Comision  implements java.io.Serializable {
         this.idcomision = idcomision;
     }
 
-    
-    @Column(name="idjefedepartamento", nullable=false)
-    public long getIdjefedepartamento() {
-        return this.idjefedepartamento;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idjefedepartamento", nullable=false)
+    public JefeDepartamento getJefeDepartamento() {
+        return this.jefeDepartamento;
     }
     
-    public void setIdjefedepartamento(long idjefedepartamento) {
-        this.idjefedepartamento = idjefedepartamento;
+    public void setJefeDepartamento(JefeDepartamento jefeDepartamento) {
+        this.jefeDepartamento = jefeDepartamento;
     }
 
     
@@ -87,6 +105,24 @@ public class Comision  implements java.io.Serializable {
     
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="comision")
+    public Set<ComisionMiembro> getComisionMiembros() {
+        return this.comisionMiembros;
+    }
+    
+    public void setComisionMiembros(Set<ComisionMiembro> comisionMiembros) {
+        this.comisionMiembros = comisionMiembros;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="comision")
+    public Set<Informe> getInformes() {
+        return this.informes;
+    }
+    
+    public void setInformes(Set<Informe> informes) {
+        this.informes = informes;
     }
 
 

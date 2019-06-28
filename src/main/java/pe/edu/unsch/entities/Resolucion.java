@@ -1,10 +1,13 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,10 +21,10 @@ public class Resolucion  implements java.io.Serializable {
 
 
      private long idresolucion;
+     private ConsejoUniversitario consejoUniversitario;
      private String nro;
      private String resumen;
      private String contenido;
-     private Long idconsejouniversitario;
 
     public Resolucion() {
     }
@@ -33,12 +36,12 @@ public class Resolucion  implements java.io.Serializable {
         this.resumen = resumen;
         this.contenido = contenido;
     }
-    public Resolucion(long idresolucion, String nro, String resumen, String contenido, Long idconsejouniversitario) {
+    public Resolucion(long idresolucion, ConsejoUniversitario consejoUniversitario, String nro, String resumen, String contenido) {
        this.idresolucion = idresolucion;
+       this.consejoUniversitario = consejoUniversitario;
        this.nro = nro;
        this.resumen = resumen;
        this.contenido = contenido;
-       this.idconsejouniversitario = idconsejouniversitario;
     }
    
      @Id 
@@ -51,6 +54,16 @@ public class Resolucion  implements java.io.Serializable {
     
     public void setIdresolucion(long idresolucion) {
         this.idresolucion = idresolucion;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idconsejouniversitario")
+    public ConsejoUniversitario getConsejoUniversitario() {
+        return this.consejoUniversitario;
+    }
+    
+    public void setConsejoUniversitario(ConsejoUniversitario consejoUniversitario) {
+        this.consejoUniversitario = consejoUniversitario;
     }
 
     
@@ -81,16 +94,6 @@ public class Resolucion  implements java.io.Serializable {
     
     public void setContenido(String contenido) {
         this.contenido = contenido;
-    }
-
-    
-    @Column(name="idconsejouniversitario")
-    public Long getIdconsejouniversitario() {
-        return this.idconsejouniversitario;
-    }
-    
-    public void setIdconsejouniversitario(Long idconsejouniversitario) {
-        this.idconsejouniversitario = idconsejouniversitario;
     }
 
 

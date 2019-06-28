@@ -1,10 +1,13 @@
-package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,7 +21,7 @@ public class CalendarioDetalle  implements java.io.Serializable {
 
 
      private long idcalendariodetalle;
-     private Long idcalendario;
+     private Calendario calendario;
      private String actividad;
      private String descripcion;
 
@@ -31,9 +34,9 @@ public class CalendarioDetalle  implements java.io.Serializable {
         this.actividad = actividad;
         this.descripcion = descripcion;
     }
-    public CalendarioDetalle(long idcalendariodetalle, Long idcalendario, String actividad, String descripcion) {
+    public CalendarioDetalle(long idcalendariodetalle, Calendario calendario, String actividad, String descripcion) {
        this.idcalendariodetalle = idcalendariodetalle;
-       this.idcalendario = idcalendario;
+       this.calendario = calendario;
        this.actividad = actividad;
        this.descripcion = descripcion;
     }
@@ -50,14 +53,14 @@ public class CalendarioDetalle  implements java.io.Serializable {
         this.idcalendariodetalle = idcalendariodetalle;
     }
 
-    
-    @Column(name="idcalendario")
-    public Long getIdcalendario() {
-        return this.idcalendario;
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="idcalendario")
+    public Calendario getCalendario() {
+        return this.calendario;
     }
     
-    public void setIdcalendario(Long idcalendario) {
-        this.idcalendario = idcalendario;
+    public void setCalendario(Calendario calendario) {
+        this.calendario = calendario;
     }
 
     
