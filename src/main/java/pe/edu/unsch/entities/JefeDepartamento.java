@@ -1,15 +1,11 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,33 +21,24 @@ public class JefeDepartamento  implements java.io.Serializable {
 
 
      private long idjefedepartamento;
+     private long idusuario;
      private String nombres;
      private String apepaterno;
      private String apematerno;
      private String nrodoc;
      private Date fechaDesigno;
-     private Set<Comision> comisions = new HashSet<Comision>(0);
 
     public JefeDepartamento() {
     }
 
-	
-    public JefeDepartamento(long idjefedepartamento, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaDesigno) {
-        this.idjefedepartamento = idjefedepartamento;
-        this.nombres = nombres;
-        this.apepaterno = apepaterno;
-        this.apematerno = apematerno;
-        this.nrodoc = nrodoc;
-        this.fechaDesigno = fechaDesigno;
-    }
-    public JefeDepartamento(long idjefedepartamento, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaDesigno, Set<Comision> comisions) {
+    public JefeDepartamento(long idjefedepartamento, long idusuario, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaDesigno) {
        this.idjefedepartamento = idjefedepartamento;
+       this.idusuario = idusuario;
        this.nombres = nombres;
        this.apepaterno = apepaterno;
        this.apematerno = apematerno;
        this.nrodoc = nrodoc;
        this.fechaDesigno = fechaDesigno;
-       this.comisions = comisions;
     }
    
      @Id 
@@ -64,6 +51,16 @@ public class JefeDepartamento  implements java.io.Serializable {
     
     public void setIdjefedepartamento(long idjefedepartamento) {
         this.idjefedepartamento = idjefedepartamento;
+    }
+
+    
+    @Column(name="idusuario", nullable=false)
+    public long getIdusuario() {
+        return this.idusuario;
+    }
+    
+    public void setIdusuario(long idusuario) {
+        this.idusuario = idusuario;
     }
 
     
@@ -114,15 +111,6 @@ public class JefeDepartamento  implements java.io.Serializable {
     
     public void setFechaDesigno(Date fechaDesigno) {
         this.fechaDesigno = fechaDesigno;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="jefeDepartamento")
-    public Set<Comision> getComisions() {
-        return this.comisions;
-    }
-    
-    public void setComisions(Set<Comision> comisions) {
-        this.comisions = comisions;
     }
 
 

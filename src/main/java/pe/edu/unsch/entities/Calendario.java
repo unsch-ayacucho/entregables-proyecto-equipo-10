@@ -1,14 +1,10 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,7 +19,6 @@ public class Calendario  implements java.io.Serializable {
 
      private long idcalendario;
      private String proceso;
-     private Set<CalendarioDetalle> calendarioDetalles = new HashSet<CalendarioDetalle>(0);
 
     public Calendario() {
     }
@@ -32,10 +27,9 @@ public class Calendario  implements java.io.Serializable {
     public Calendario(long idcalendario) {
         this.idcalendario = idcalendario;
     }
-    public Calendario(long idcalendario, String proceso, Set<CalendarioDetalle> calendarioDetalles) {
+    public Calendario(long idcalendario, String proceso) {
        this.idcalendario = idcalendario;
        this.proceso = proceso;
-       this.calendarioDetalles = calendarioDetalles;
     }
    
      @Id 
@@ -58,15 +52,6 @@ public class Calendario  implements java.io.Serializable {
     
     public void setProceso(String proceso) {
         this.proceso = proceso;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="calendario")
-    public Set<CalendarioDetalle> getCalendarioDetalles() {
-        return this.calendarioDetalles;
-    }
-    
-    public void setCalendarioDetalles(Set<CalendarioDetalle> calendarioDetalles) {
-        this.calendarioDetalles = calendarioDetalles;
     }
 
 

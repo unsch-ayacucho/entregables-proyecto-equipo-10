@@ -1,13 +1,10 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,16 +18,16 @@ public class ComisionMiembro  implements java.io.Serializable {
 
 
      private long idcomisionmiembro;
-     private Comision comision;
-     private Docente docente;
+     private long iddocente;
+     private long idcomision;
 
     public ComisionMiembro() {
     }
 
-    public ComisionMiembro(long idcomisionmiembro, Comision comision, Docente docente) {
+    public ComisionMiembro(long idcomisionmiembro, long iddocente, long idcomision) {
        this.idcomisionmiembro = idcomisionmiembro;
-       this.comision = comision;
-       this.docente = docente;
+       this.iddocente = iddocente;
+       this.idcomision = idcomision;
     }
    
      @Id 
@@ -45,24 +42,24 @@ public class ComisionMiembro  implements java.io.Serializable {
         this.idcomisionmiembro = idcomisionmiembro;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idcomision", nullable=false)
-    public Comision getComision() {
-        return this.comision;
+    
+    @Column(name="iddocente", nullable=false)
+    public long getIddocente() {
+        return this.iddocente;
     }
     
-    public void setComision(Comision comision) {
-        this.comision = comision;
+    public void setIddocente(long iddocente) {
+        this.iddocente = iddocente;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="iddocente", nullable=false)
-    public Docente getDocente() {
-        return this.docente;
+    
+    @Column(name="idcomision", nullable=false)
+    public long getIdcomision() {
+        return this.idcomision;
     }
     
-    public void setDocente(Docente docente) {
-        this.docente = docente;
+    public void setIdcomision(long idcomision) {
+        this.idcomision = idcomision;
     }
 
 

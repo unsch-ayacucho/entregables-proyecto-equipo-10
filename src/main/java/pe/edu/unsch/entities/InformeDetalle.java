@@ -1,13 +1,10 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,17 +18,17 @@ public class InformeDetalle  implements java.io.Serializable {
 
 
      private long idinformedetalle;
-     private Informe informe;
-     private TablaEvDetalle tablaEvDetalle;
+     private long idinforme;
+     private long idtablaevdetalle;
      private short puntaje;
 
     public InformeDetalle() {
     }
 
-    public InformeDetalle(long idinformedetalle, Informe informe, TablaEvDetalle tablaEvDetalle, short puntaje) {
+    public InformeDetalle(long idinformedetalle, long idinforme, long idtablaevdetalle, short puntaje) {
        this.idinformedetalle = idinformedetalle;
-       this.informe = informe;
-       this.tablaEvDetalle = tablaEvDetalle;
+       this.idinforme = idinforme;
+       this.idtablaevdetalle = idtablaevdetalle;
        this.puntaje = puntaje;
     }
    
@@ -47,24 +44,24 @@ public class InformeDetalle  implements java.io.Serializable {
         this.idinformedetalle = idinformedetalle;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idinforme", nullable=false)
-    public Informe getInforme() {
-        return this.informe;
+    
+    @Column(name="idinforme", nullable=false)
+    public long getIdinforme() {
+        return this.idinforme;
     }
     
-    public void setInforme(Informe informe) {
-        this.informe = informe;
+    public void setIdinforme(long idinforme) {
+        this.idinforme = idinforme;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idtablaevdetalle", nullable=false)
-    public TablaEvDetalle getTablaEvDetalle() {
-        return this.tablaEvDetalle;
+    
+    @Column(name="idtablaevdetalle", nullable=false)
+    public long getIdtablaevdetalle() {
+        return this.idtablaevdetalle;
     }
     
-    public void setTablaEvDetalle(TablaEvDetalle tablaEvDetalle) {
-        this.tablaEvDetalle = tablaEvDetalle;
+    public void setIdtablaevdetalle(long idtablaevdetalle) {
+        this.idtablaevdetalle = idtablaevdetalle;
     }
 
     

@@ -1,17 +1,11 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,37 +21,22 @@ public class Informe  implements java.io.Serializable {
 
 
      private long idinforme;
-     private Comision comision;
-     private Promocion promocion;
-     private TablaEv tablaEv;
+     private long idpromocion;
+     private long idcomision;
+     private long idtablaev;
      private String nombre;
      private Date fechaCreacion;
-     private Set<InformeCf> informeCfs = new HashSet<InformeCf>(0);
-     private Set<InformeCu> informeCus = new HashSet<InformeCu>(0);
-     private Set<InformeDetalle> informeDetalles = new HashSet<InformeDetalle>(0);
 
     public Informe() {
     }
 
-	
-    public Informe(long idinforme, Comision comision, Promocion promocion, TablaEv tablaEv, String nombre, Date fechaCreacion) {
-        this.idinforme = idinforme;
-        this.comision = comision;
-        this.promocion = promocion;
-        this.tablaEv = tablaEv;
-        this.nombre = nombre;
-        this.fechaCreacion = fechaCreacion;
-    }
-    public Informe(long idinforme, Comision comision, Promocion promocion, TablaEv tablaEv, String nombre, Date fechaCreacion, Set<InformeCf> informeCfs, Set<InformeCu> informeCus, Set<InformeDetalle> informeDetalles) {
+    public Informe(long idinforme, long idpromocion, long idcomision, long idtablaev, String nombre, Date fechaCreacion) {
        this.idinforme = idinforme;
-       this.comision = comision;
-       this.promocion = promocion;
-       this.tablaEv = tablaEv;
+       this.idpromocion = idpromocion;
+       this.idcomision = idcomision;
+       this.idtablaev = idtablaev;
        this.nombre = nombre;
        this.fechaCreacion = fechaCreacion;
-       this.informeCfs = informeCfs;
-       this.informeCus = informeCus;
-       this.informeDetalles = informeDetalles;
     }
    
      @Id 
@@ -72,34 +51,34 @@ public class Informe  implements java.io.Serializable {
         this.idinforme = idinforme;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idcomision", nullable=false)
-    public Comision getComision() {
-        return this.comision;
+    
+    @Column(name="idpromocion", nullable=false)
+    public long getIdpromocion() {
+        return this.idpromocion;
     }
     
-    public void setComision(Comision comision) {
-        this.comision = comision;
+    public void setIdpromocion(long idpromocion) {
+        this.idpromocion = idpromocion;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idpromocion", nullable=false)
-    public Promocion getPromocion() {
-        return this.promocion;
+    
+    @Column(name="idcomision", nullable=false)
+    public long getIdcomision() {
+        return this.idcomision;
     }
     
-    public void setPromocion(Promocion promocion) {
-        this.promocion = promocion;
+    public void setIdcomision(long idcomision) {
+        this.idcomision = idcomision;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idtablaev", nullable=false)
-    public TablaEv getTablaEv() {
-        return this.tablaEv;
+    
+    @Column(name="idtablaev", nullable=false)
+    public long getIdtablaev() {
+        return this.idtablaev;
     }
     
-    public void setTablaEv(TablaEv tablaEv) {
-        this.tablaEv = tablaEv;
+    public void setIdtablaev(long idtablaev) {
+        this.idtablaev = idtablaev;
     }
 
     
@@ -120,33 +99,6 @@ public class Informe  implements java.io.Serializable {
     
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="informe")
-    public Set<InformeCf> getInformeCfs() {
-        return this.informeCfs;
-    }
-    
-    public void setInformeCfs(Set<InformeCf> informeCfs) {
-        this.informeCfs = informeCfs;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="informe")
-    public Set<InformeCu> getInformeCus() {
-        return this.informeCus;
-    }
-    
-    public void setInformeCus(Set<InformeCu> informeCus) {
-        this.informeCus = informeCus;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="informe")
-    public Set<InformeDetalle> getInformeDetalles() {
-        return this.informeDetalles;
-    }
-    
-    public void setInformeDetalles(Set<InformeDetalle> informeDetalles) {
-        this.informeDetalles = informeDetalles;
     }
 
 

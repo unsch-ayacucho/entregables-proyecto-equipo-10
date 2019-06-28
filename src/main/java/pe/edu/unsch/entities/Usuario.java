@@ -1,14 +1,10 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 5:09:22 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,24 +20,18 @@ public class Usuario  implements java.io.Serializable {
      private long idusuario;
      private String usuario;
      private String password;
-     private String foto;
-     private Set<Docente> docentes = new HashSet<Docente>(0);
+     private String cargo;
+     private boolean esAdmin;
 
     public Usuario() {
     }
 
-	
-    public Usuario(long idusuario, String usuario, String password) {
-        this.idusuario = idusuario;
-        this.usuario = usuario;
-        this.password = password;
-    }
-    public Usuario(long idusuario, String usuario, String password, String foto, Set<Docente> docentes) {
+    public Usuario(long idusuario, String usuario, String password, String cargo, boolean esAdmin) {
        this.idusuario = idusuario;
        this.usuario = usuario;
        this.password = password;
-       this.foto = foto;
-       this.docentes = docentes;
+       this.cargo = cargo;
+       this.esAdmin = esAdmin;
     }
    
      @Id 
@@ -77,22 +67,23 @@ public class Usuario  implements java.io.Serializable {
     }
 
     
-    @Column(name="foto", length=100)
-    public String getFoto() {
-        return this.foto;
+    @Column(name="cargo", nullable=false, length=50)
+    public String getCargo() {
+        return this.cargo;
     }
     
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
-    public Set<Docente> getDocentes() {
-        return this.docentes;
+    
+    @Column(name="es_admin", nullable=false)
+    public boolean isEsAdmin() {
+        return this.esAdmin;
     }
     
-    public void setDocentes(Set<Docente> docentes) {
-        this.docentes = docentes;
+    public void setEsAdmin(boolean esAdmin) {
+        this.esAdmin = esAdmin;
     }
 
 

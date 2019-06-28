@@ -1,13 +1,10 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,18 +18,18 @@ public class InformeCf  implements java.io.Serializable {
 
 
      private long idinformecf;
-     private ConsejoFacultad consejoFacultad;
-     private Informe informe;
+     private long idconsejofacultad;
+     private long idinforme;
      private boolean aprobado;
      private String detalle;
 
     public InformeCf() {
     }
 
-    public InformeCf(long idinformecf, ConsejoFacultad consejoFacultad, Informe informe, boolean aprobado, String detalle) {
+    public InformeCf(long idinformecf, long idconsejofacultad, long idinforme, boolean aprobado, String detalle) {
        this.idinformecf = idinformecf;
-       this.consejoFacultad = consejoFacultad;
-       this.informe = informe;
+       this.idconsejofacultad = idconsejofacultad;
+       this.idinforme = idinforme;
        this.aprobado = aprobado;
        this.detalle = detalle;
     }
@@ -49,24 +46,24 @@ public class InformeCf  implements java.io.Serializable {
         this.idinformecf = idinformecf;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idconsejofacultad", nullable=false)
-    public ConsejoFacultad getConsejoFacultad() {
-        return this.consejoFacultad;
+    
+    @Column(name="idconsejofacultad", nullable=false)
+    public long getIdconsejofacultad() {
+        return this.idconsejofacultad;
     }
     
-    public void setConsejoFacultad(ConsejoFacultad consejoFacultad) {
-        this.consejoFacultad = consejoFacultad;
+    public void setIdconsejofacultad(long idconsejofacultad) {
+        this.idconsejofacultad = idconsejofacultad;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idinforme", nullable=false)
-    public Informe getInforme() {
-        return this.informe;
+    
+    @Column(name="idinforme", nullable=false)
+    public long getIdinforme() {
+        return this.idinforme;
     }
     
-    public void setInforme(Informe informe) {
-        this.informe = informe;
+    public void setIdinforme(long idinforme) {
+        this.idinforme = idinforme;
     }
 
     

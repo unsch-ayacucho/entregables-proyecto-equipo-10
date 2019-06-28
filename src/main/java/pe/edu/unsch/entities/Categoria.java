@@ -1,14 +1,10 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -23,20 +19,13 @@ public class Categoria  implements java.io.Serializable {
 
      private long idcategoria;
      private String nombre;
-     private Set<Promocion> promocions = new HashSet<Promocion>(0);
 
     public Categoria() {
     }
 
-	
     public Categoria(long idcategoria, String nombre) {
-        this.idcategoria = idcategoria;
-        this.nombre = nombre;
-    }
-    public Categoria(long idcategoria, String nombre, Set<Promocion> promocions) {
        this.idcategoria = idcategoria;
        this.nombre = nombre;
-       this.promocions = promocions;
     }
    
      @Id 
@@ -59,15 +48,6 @@ public class Categoria  implements java.io.Serializable {
     
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="categoria")
-    public Set<Promocion> getPromocions() {
-        return this.promocions;
-    }
-    
-    public void setPromocions(Set<Promocion> promocions) {
-        this.promocions = promocions;
     }
 
 

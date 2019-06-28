@@ -1,16 +1,10 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 5:22:01 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -24,37 +18,33 @@ public class Docente  implements java.io.Serializable {
 
 
      private long iddocente;
-     private Usuario usuario;
+     private long idusuario;
      private String nombres;
      private String apepaterno;
      private String apematerno;
      private String nrodoc;
      private String cargo;
-     private Set<Promocion> promocions = new HashSet<Promocion>(0);
-     private Set<ComisionMiembro> comisionMiembros = new HashSet<ComisionMiembro>(0);
 
     public Docente() {
     }
 
 	
-    public Docente(long iddocente, Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc) {
+    public Docente(long iddocente, long idusuario, String nombres, String apepaterno, String apematerno, String nrodoc) {
         this.iddocente = iddocente;
-        this.usuario = usuario;
+        this.idusuario = idusuario;
         this.nombres = nombres;
         this.apepaterno = apepaterno;
         this.apematerno = apematerno;
         this.nrodoc = nrodoc;
     }
-    public Docente(long iddocente, Usuario usuario, String nombres, String apepaterno, String apematerno, String nrodoc, String cargo, Set<Promocion> promocions, Set<ComisionMiembro> comisionMiembros) {
+    public Docente(long iddocente, long idusuario, String nombres, String apepaterno, String apematerno, String nrodoc, String cargo) {
        this.iddocente = iddocente;
-       this.usuario = usuario;
+       this.idusuario = idusuario;
        this.nombres = nombres;
        this.apepaterno = apepaterno;
        this.apematerno = apematerno;
        this.nrodoc = nrodoc;
        this.cargo = cargo;
-       this.promocions = promocions;
-       this.comisionMiembros = comisionMiembros;
     }
    
      @Id 
@@ -69,14 +59,14 @@ public class Docente  implements java.io.Serializable {
         this.iddocente = iddocente;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idusuario", nullable=false)
-    public Usuario getUsuario() {
-        return this.usuario;
+    
+    @Column(name="idusuario", nullable=false)
+    public long getIdusuario() {
+        return this.idusuario;
     }
     
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdusuario(long idusuario) {
+        this.idusuario = idusuario;
     }
 
     
@@ -127,24 +117,6 @@ public class Docente  implements java.io.Serializable {
     
     public void setCargo(String cargo) {
         this.cargo = cargo;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="docente")
-    public Set<Promocion> getPromocions() {
-        return this.promocions;
-    }
-    
-    public void setPromocions(Set<Promocion> promocions) {
-        this.promocions = promocions;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="docente")
-    public Set<ComisionMiembro> getComisionMiembros() {
-        return this.comisionMiembros;
-    }
-    
-    public void setComisionMiembros(Set<ComisionMiembro> comisionMiembros) {
-        this.comisionMiembros = comisionMiembros;
     }
 
 

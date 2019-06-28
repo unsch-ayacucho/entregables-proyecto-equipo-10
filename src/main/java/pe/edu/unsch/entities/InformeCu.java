@@ -1,13 +1,10 @@
-package pe.edu.unsch.entities;
-// Generated Jun 14, 2019, 3:18:26 PM by Hibernate Tools 4.3.2-SNAPSHOT
+package pe.edu.unsch.hibernate;
+// Generated Jun 28, 2019, 8:47:33 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,19 +18,19 @@ public class InformeCu  implements java.io.Serializable {
 
 
      private long idinformecu;
-     private ConsejoUniversitario consejoUniversitario;
-     private Informe informe;
+     private long idinforme;
      private boolean aprobado;
+     private long idconsejouniversitario;
      private String detalle;
 
     public InformeCu() {
     }
 
-    public InformeCu(long idinformecu, ConsejoUniversitario consejoUniversitario, Informe informe, boolean aprobado, String detalle) {
+    public InformeCu(long idinformecu, long idinforme, boolean aprobado, long idconsejouniversitario, String detalle) {
        this.idinformecu = idinformecu;
-       this.consejoUniversitario = consejoUniversitario;
-       this.informe = informe;
+       this.idinforme = idinforme;
        this.aprobado = aprobado;
+       this.idconsejouniversitario = idconsejouniversitario;
        this.detalle = detalle;
     }
    
@@ -49,24 +46,14 @@ public class InformeCu  implements java.io.Serializable {
         this.idinformecu = idinformecu;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idconsejouniversitario", nullable=false)
-    public ConsejoUniversitario getConsejoUniversitario() {
-        return this.consejoUniversitario;
+    
+    @Column(name="idinforme", nullable=false)
+    public long getIdinforme() {
+        return this.idinforme;
     }
     
-    public void setConsejoUniversitario(ConsejoUniversitario consejoUniversitario) {
-        this.consejoUniversitario = consejoUniversitario;
-    }
-
-@ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="idinforme", nullable=false)
-    public Informe getInforme() {
-        return this.informe;
-    }
-    
-    public void setInforme(Informe informe) {
-        this.informe = informe;
+    public void setIdinforme(long idinforme) {
+        this.idinforme = idinforme;
     }
 
     
@@ -77,6 +64,16 @@ public class InformeCu  implements java.io.Serializable {
     
     public void setAprobado(boolean aprobado) {
         this.aprobado = aprobado;
+    }
+
+    
+    @Column(name="idconsejouniversitario", nullable=false)
+    public long getIdconsejouniversitario() {
+        return this.idconsejouniversitario;
+    }
+    
+    public void setIdconsejouniversitario(long idconsejouniversitario) {
+        this.idconsejouniversitario = idconsejouniversitario;
     }
 
     
