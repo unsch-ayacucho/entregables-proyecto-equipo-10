@@ -1,27 +1,50 @@
 package pe.edu.unsch.controller;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import pe.edu.unsch.service.ArchivoService;
+import pe.edu.unsch.entities.Archivo;
+import pe.edu.unsch.entities.Usuario;
 
 @Controller
 @RequestMapping("/admin")
 public class HomeController {
+	@Autowired
+	private ArchivoService archivoService;
 	
 	@GetMapping("/home")
 	public String home(HttpSession session, Model model) {
-		if(session.getAttribute("usuario") == null || session.getAttribute("usuario").equals("")) {
+		try {
+			if(((Usuario) session.getAttribute("usuario")).getUsuario() == null || ((Usuario) session.getAttribute("usuario")).getUsuario().equals("")) {
+				return "redirect:/login";
+			} else {
+				model.addAttribute("title", "Dashboard");
+				model.addAttribute("docs",
+				this.archivoService.listarDocumentos( ((Usuario) session.getAttribute("usuario")).getIdusuario() )  );
+				return "views/admin/home/index";
+				
+			}
+		} catch(NullPointerException npe) {
 			return "redirect:/login";
-		} else {
-			model.addAttribute("title", "Dashboard");
-			return "views/admin/home/index";
-			
 		}
 	}
 	
@@ -30,6 +53,37 @@ public class HomeController {
 		session.invalidate();
 		redir.addFlashAttribute("error", "Ha cerrado sesión correctamente.");
 		return "redirect:/login";
+	}
+	
+	@RequestMapping("/download-doc/{flag}/{idArchivo}")
+	public String downloadDoc(@PathVariable("idArchivo") long idArchivo, @PathVariable("flag") String flag, HttpServletResponse response) {
+		Archivo arch = archivoService.downloadDocumento(idArchivo);
+		
+				
+		String opt = flag.equals("p") ? "inline" : "attachment";
+		
+		
+		
+		try {
+			response.setHeader("Content-Disposition", opt + ";filename=" +arch.getNombre()+ ".pdf" );
+			OutputStream out = response.getOutputStream();
+			response.setContentType("application/pdf");
+			IOUtils.copy(new ByteArrayInputStream(arch.getData()), out);
+			out.flush();
+			out.close();
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+		
+		return null;
+	}
+	
+	@PostMapping("/save-doc")
+	public String saveDoc(HttpServletRequest request, @RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
+		this.archivoService.saveDocumento(file, name);
+		return "redirect:/admin/home";
 	}
 
 }

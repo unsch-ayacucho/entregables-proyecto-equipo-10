@@ -42,7 +42,7 @@ public class LoginController {
 			redir.addFlashAttribute("error", "Cuenta inválida.");
 			return "redirect:/login";
 		}
-		session.setAttribute("usuario", user.getUsuario());
+		session.setAttribute("usuario", user);
 		return "redirect:/admin/home";
 	}
 

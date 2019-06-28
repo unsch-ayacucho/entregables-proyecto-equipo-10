@@ -1,4 +1,4 @@
-package pe.edu.unsch.hibernate;
+package pe.edu.unsch.entities;
 // Generated Jun 28, 2019, 10:54:14 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 

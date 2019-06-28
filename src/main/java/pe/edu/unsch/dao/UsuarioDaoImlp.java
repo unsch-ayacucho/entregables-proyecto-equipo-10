@@ -17,7 +17,7 @@ public class UsuarioDaoImlp implements UsuarioDao {
 	public Usuario login(String usuario, String password) {
 		return (Usuario) entityManager
 
-				.createQuery("from Usuario " + "where usuario = :usuario and " + "password = :password")
+				.createQuery("from Usuario where usuario = :usuario and password = :password")
 
 				.setParameter("usuario", usuario)
 				.setParameter("password", password)

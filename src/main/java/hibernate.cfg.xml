@@ -6,6 +6,7 @@
   <!-- <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
   <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/categorizaciondb</property>
   <property name="hibernate.connection.username">root</property> -->
+  <mapping class="pe.edu.unsch.entities.Archivo"/>
   <mapping class="pe.edu.unsch.entities.Calendario"/>
   <mapping class="pe.edu.unsch.entities.CalendarioDetalle"/>
   <mapping class="pe.edu.unsch.entities.Categoria"/>

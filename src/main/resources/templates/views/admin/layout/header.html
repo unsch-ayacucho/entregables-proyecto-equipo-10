@@ -9,7 +9,7 @@
 				class="user-profile dropdown-toggle" data-toggle="dropdown"
 				aria-expanded="false"> <img
 					th:src="@{/admin/images/img.jpg}"
-					alt="" th:text="${session.usuario}"> <span class=" fa fa-angle-down"></span>
+					alt="" th:text="${session.usuario.getUsuario()}"> <span class=" fa fa-angle-down"></span>
 			</a>
 				<ul class="dropdown-menu dropdown-usermenu pull-right">
 					<li><a href="javascript:;"> Perfil</a></li>
