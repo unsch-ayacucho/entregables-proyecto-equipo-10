@@ -32,6 +32,12 @@ public class ArchivoServiceImpl implements ArchivoService {
 	public void saveDocumento(MultipartFile data, String nombre) {
 		archivoDao.saveDocumento(data, nombre);
 	}
+
+	@Override
+	public void removeDocumento(long l) {
+		archivoDao.removeDocumento(l);
+		
+	}
 	
 	
 	

@@ -22,28 +22,32 @@ public class ArchivoDaoImpl implements ArchivoDao {
 	@Override
 	public List<Archivo> listarDocumentos(long l) {
 		return (List<Archivo>) entityManager
-				.createQuery("select new Archivo(arc.idarchivo as idarchivo, arc.nombre as nombre, arc.data as data, arc.fecha as fecha) from Archivo arc inner join arc.docente doc inner join doc.usuario usu where usu.idusuario = :idUsuario", Archivo.class)
+				.createQuery("select new Archivo(arc.idarchivo as idarchivo, arc.nombre as nombre, arc.fullnombre as fullnombre, arc.tipo as tipo, arc.data as data, arc.fecha as fecha) from Archivo arc inner join arc.docente doc inner join doc.usuario usu where usu.idusuario = :idUsuario", Archivo.class)
 				.setParameter("idUsuario", l)
 				.getResultList();
 	}
 	
 	@Override
 	public Archivo downloadDocumento(long l) {
-		return (Archivo) entityManager
-
-				.createQuery("from Archivo where idarchivo = :idArchivo")
-				.setParameter("idArchivo", l)
-				.getSingleResult();
+		return (Archivo) entityManager.find(Archivo.class, l);
 	}
 
 	@Override
 	public void saveDocumento(MultipartFile data, String nombre) {
-		Docente doc = entityManager.find(Docente.class, (long) 1);
+		Docente doc = entityManager.getReference(Docente.class, (long) 1);
+		
+		System.out.println(data.getContentType());
 		try {
-			entityManager.persist(new Archivo(4, doc, nombre, data.getBytes(), new Date()));
+			entityManager.persist(new Archivo(doc, nombre, data.getOriginalFilename(), data.getContentType(), data.getBytes(), new Date()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void removeDocumento(long l) {
+		Archivo arch = entityManager.getReference(Archivo.class, (long) l);
+		entityManager.remove(arch);
 	}
 
 }

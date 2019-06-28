@@ -13,5 +13,7 @@ public interface ArchivoService {
 	public Archivo downloadDocumento(long l);
 	
 	public void saveDocumento(MultipartFile data, String nombre);
+	
+	public void removeDocumento(long l);
 
 }

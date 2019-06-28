@@ -1,4 +1,4 @@
-package pe.edu.unsch.hibernate;
+package pe.edu.unsch.entities;
 // Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
@@ -28,6 +28,7 @@ public class Archivo  implements java.io.Serializable {
      private Long idarchivo;
      private Docente docente;
      private String nombre;
+     private String fullnombre;
      private String tipo;
      private byte[] data;
      private Date fecha;
@@ -35,13 +36,30 @@ public class Archivo  implements java.io.Serializable {
     public Archivo() {
     }
 
-    public Archivo(Docente docente, String nombre, String tipo, byte[] data, Date fecha) {
+    public Archivo(Docente docente, String nombre, String fullnombre, String tipo, byte[] data, Date fecha) {
        this.docente = docente;
        this.nombre = nombre;
+       this.fullnombre = fullnombre;
        this.tipo = tipo;
        this.data = data;
        this.fecha = fecha;
     }
+    
+    public Archivo(Long idarchivo, String nombre, String fullnombre, String tipo, byte[] data, Date fecha) {
+    	this.idarchivo = idarchivo;
+        this.nombre = nombre;
+        this.fullnombre = fullnombre;
+        this.tipo = tipo;
+        this.data = data;
+        this.fecha = fecha;
+     }
+    
+    public Archivo(String nombre, String tipo, byte[] data, Date fecha) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.data = data;
+        this.fecha = fecha;
+     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
 
@@ -66,7 +84,7 @@ public class Archivo  implements java.io.Serializable {
     }
 
     
-    @Column(name="nombre", nullable=false, length=50)
+    @Column(name="nombre", nullable=false, length=100)
     public String getNombre() {
         return this.nombre;
     }
@@ -74,9 +92,18 @@ public class Archivo  implements java.io.Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+    
+    @Column(name="fullnombre", nullable=false, length=100)
+    public String getFullnombre() {
+        return this.fullnombre;
+    }
+    
+    public void setFullnombre(String fullnombre) {
+        this.fullnombre = fullnombre;
+    }
 
     
-    @Column(name="tipo", nullable=false, length=5)
+    @Column(name="tipo", nullable=false, length=100)
     public String getTipo() {
         return this.tipo;
     }

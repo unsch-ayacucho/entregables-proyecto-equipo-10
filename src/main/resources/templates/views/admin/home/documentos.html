@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<div th:replace="views/admin/layout/layout :: head"></div>
+<link rel="stylesheet" th:href="@{/admin/css/bootstrap-progressbar-3.3.4.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/css/jqvmap.min.css}" />
+</head>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<!-- sidebar menu -->
+			<div th:replace="views/admin/layout/layout :: menu"></div>
+			<!-- /sidebar menu -->
+
+			<!-- top navigation -->
+			<div th:replace="views/admin/layout/layout :: header"></div>
+			<!-- /top navigation -->
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<!-- top tiles -->
+				<h1>DOCUMENTOS</h1>
+				<!-- /top tiles -->
+
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="dashboard_graph">
+
+							<div class="row x_title">
+								<div class="col-md-6">
+									<h3>
+										Mis documentos probatorios
+									</h3>
+								</div>
+								<div class="col-md-6">
+									<div id="reportrange" class="pull-right"
+										style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+										<i class="glyphicon glyphicon-calendar fa fa-calendar"></i> <span>June
+											9, 2018 - July 8, 2018</span> <b class="caret"></b>
+									</div>
+								</div>
+							</div>
+							
+							<div class=" row col-md-12 col-sm-12 col-xs-12 bg-white">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Nombre del documento</th>
+											<th>Fecha de subida</th>
+											<th>Tipo</th>
+											<th style="text-align: center;">Visualizar</th>
+											<th style="text-align: center;">Descargar</th>
+											<th style="text-align: center;">Eliminar</th>
+										</tr>
+									</thead>
+									<tbody>
+										 <tr th:each="r : ${docs}">
+											<td th:text="${rStat.index} + 1" style="vertical-align: middle;"></td>
+											<td th:text="${r.nombre}" style="vertical-align: middle;"></td>
+											<td th:text="${#dates.format(r.fecha, 'dd/MM/yyyy | hh:mm a')}" style="vertical-align: middle;"></td>
+											<td th:text="${r.fullnombre.substring(r.fullnombre.lastIndexOf('.') + 1).toUpperCase()}" style="vertical-align: middle;"></td>
+											
+											
+											<td style="text-align: center;">
+												<a target="_blank" th:href="@{'/admin/download-doc/p/' + ${r.idarchivo}}" th:if="${!r.fullnombre.substring(r.fullnombre.lastIndexOf('.') + 1).toUpperCase().matches('DOCX|DOC|PPT|PPTX|XLS|XLSX')}">
+													<button type="button" class="btn btn-info" style="margin: 0; padding: 0 5px;">
+														<span class="fa fa-file" aria-hidden="true"></span>
+													</button>
+												</a>
+												
+												<button type="button" class="btn btn-info disabled" style="margin: 0; padding: 0 5px;" th:unless="${!r.fullnombre.substring(r.fullnombre.lastIndexOf('.') + 1).toUpperCase().matches('DOCX|DOC|PPT|PPTX|XLS|XLSX')}">
+													<span class="fa fa-file" aria-hidden="true"></span>
+												</button>
+											</td>
+											<td style="text-align: center;">
+												<a th:href="@{'/admin/download-doc/d/' + ${r.idarchivo}}">
+													<button type="button" class="btn btn-info" style="margin: 0; padding: 0 5px;"><span class="fa fa-download" aria-hidden="true"></span></button>
+												</a>
+											</td>
+											<td style="text-align: center;">
+												<a th:href="@{'/admin/remove-doc/' + ${r.idarchivo}}">
+													<button type="button" class="btn btn-danger" style="margin:0; padding:0 5px;"><span class="fa fa-trash" aria-hidden="true"></span></button>
+												</a>
+											</td>
+										</tr> 
+									</tbody>
+								</table>
+							</div>
+							
+							
+							<div class="row col-md-12 col-sm-12 col-xs-12 bg-white">
+								<button type="button" data-toggle="modal" data-target="#modalAddDoc" th:attr="data-target='#modalAddDoc'" class="btn btn-primary pull-right">Subir nuevo documento</button>
+								<a th:href="@{'/admin/zip-doc/'}">
+									<button type="button" class="btn btn-info pull-right">Descargar todos (.zip)</button>
+								</a>
+							</div>
+							
+							<div class="row col-md-12 col-sm-12 col-xs-12 bg-white">
+								  <button type="button" class="btn btn-success pull-right disabled">Continuar a la generación de solicitud</button> 
+							</div>
+							
+							<div class="modal fade in" th:id="modalAddDoc">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true"></span></button>
+											<h3 class="modal-title">Agregar un documento probatorio</h3>
+										</div>
+										<div class="modal-body">
+											<form th:action="@{/admin/save-doc}" method="POST" enctype="multipart/form-data">
+												<div class="row col-md-12 col-sm-12 col-xs-12">
+													<label path="name">Nombre</label>
+													<input type="text" class="form-control" required="" name="name" maxlength="50" />
+												</div>
+												
+												
+												<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;">
+													<label path="file">Archivo</label>
+													<input type="file" required="" name="file" class="form-control-file" accept=".xls,.xlsx,.doc,.docx,.pdf,.ppt,.pptx,.jpg,.jpeg" />
+												</div>
+												
+												<button class="btn btn-success pull-right" type="submit">Subir</button>
+												<button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancelar</button>												
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+				</div>
+				<br>
+
+			</div>
+			<!-- /page content -->
+
+			<!-- footer content -->
+			<footer>
+				<div th:replace="views/admin/layout/layout :: footer"></div>
+				<script th:src="@{/admin/js/Chart.min.js}"></script>
+				<script th:src="@{/admin/js/gauge.min.js}"></script>
+				<script th:src="@{/admin/js/bootstrap-progressbar.min.js}"></script>
+				
+				<script th:src="@{/admin/js/icheck.min.js}"></script>
+				<script th:src="@{/admin/js/skycons.js}"></script>
+				<script th:src="@{/admin/js/jquery.flot.js}"></script>
+				
+				<script th:src="@{/admin/js/jquery.flot.pie.js}"></script>
+				<script th:src="@{/admin/js/jquery.flot.time.js}"></script>
+				<script th:src="@{/admin/js/jquery.flot.stack.js}"></script>
+				
+				<script th:src="@{/admin/js/jquery.flot.orderBars.js}"></script>
+				<script th:src="@{/admin/js/jquery.flot.spline.min.js}"></script>
+				<script th:src="@{/admin/js/curvedLines.js}"></script>
+				
+				<script th:src="@{/admin/js/date.js}"></script>
+				<script th:src="@{/admin/js/jquery.vmap.js}"></script>
+				<script th:src="@{/admin/js/jquery.vmap.world.js}"></script>
+				
+				<script th:src="@{/admin/js/jquery.vmap.sampledata.js}"></script>
+				<script th:src="@{/admin/js/moment.min.js}"></script>
+				<script th:src="@{/admin/js/daterangepicker.js}"></script>
+				<script th:src="@{/admin/js/jsFlot.js}"></script>
+			</footer>
+			<!-- /footer content -->
+		</div>
+	</div>
+</body>
+</html>
