@@ -14,4 +14,6 @@ public interface ArchivoDao {
 	public void saveDocumento(MultipartFile data, String nombre);
 	
 	public void removeDocumento(long l);
+
+	public void genSolicitud(String name);
 }

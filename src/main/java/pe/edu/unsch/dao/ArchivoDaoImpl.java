@@ -1,5 +1,6 @@
 package pe.edu.unsch.dao;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,11 @@ import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 
 import pe.edu.unsch.entities.Archivo;
 import pe.edu.unsch.entities.Docente;
@@ -48,6 +54,24 @@ public class ArchivoDaoImpl implements ArchivoDao {
 	public void removeDocumento(long l) {
 		Archivo arch = entityManager.getReference(Archivo.class, (long) l);
 		entityManager.remove(arch);
+	}
+
+	@Override
+	public void genSolicitud(String name) {
+		try {
+			PdfReader reader = new PdfReader("E:\\PROM.pdf");
+			PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("E:\\GA.pdf"));
+			AcroFields form = stamper.getAcroFields();
+			form.setField("name", name);
+			stamper.setFormFlattening(true);
+			stamper.close();
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

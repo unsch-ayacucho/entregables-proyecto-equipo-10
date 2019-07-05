@@ -38,6 +38,12 @@ public class ArchivoServiceImpl implements ArchivoService {
 		archivoDao.removeDocumento(l);
 		
 	}
+
+	@Override
+	public void genSolicitud(String name) {
+		archivoDao.genSolicitud(name);
+		
+	}
 	
 	
 	

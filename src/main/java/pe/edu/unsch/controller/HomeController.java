@@ -84,6 +84,21 @@ public class HomeController {
 		}
 	}
 	
+	@GetMapping("/solicitud")
+	public String solicitud(HttpSession session, Model model) {
+		try {
+			if(((Usuario) session.getAttribute("usuario")).getUsuario() == null || ((Usuario) session.getAttribute("usuario")).getUsuario().equals("")) {
+				return "redirect:/login";
+			} else {
+				model.addAttribute("title", "Solicitud");
+				model.addAttribute("user", this.usuarioService.datosUsuario( (long) ((Usuario) session.getAttribute("usuario")).getIdusuario() )  );
+				return "views/admin/home/solicitud";
+			}
+		} catch(NullPointerException npe) {
+			return "redirect:/login";
+		}
+	}
+	
 	@PostMapping("/logout")
 	public String logout(HttpSession session, RedirectAttributes redir) {
 		session.invalidate();
@@ -116,6 +131,18 @@ public class HomeController {
 	public String saveDoc(HttpServletRequest request, @RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
 		this.archivoService.saveDocumento(file, name);
 		return "redirect:/admin/doc";
+	}
+	
+	@PostMapping("/save-doc-gen")
+	public String saveDocGen(HttpServletRequest request, @RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
+		this.archivoService.saveDocumento(file, name);
+		return "redirect:/admin/solicitud";
+	}
+	
+	@PostMapping("/gen-solicitud")
+	public String genSolicitud(HttpServletRequest request, @RequestParam("name") String name) {
+		this.archivoService.genSolicitud(name);
+		return "redirect:/admin/solicitud";
 	}
 	
 	@RequestMapping("/remove-doc/{idArchivo}")

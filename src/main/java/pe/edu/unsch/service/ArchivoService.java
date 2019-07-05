@@ -16,4 +16,6 @@ public interface ArchivoService {
 	
 	public void removeDocumento(long l);
 
+	public void genSolicitud(String name);
+
 }

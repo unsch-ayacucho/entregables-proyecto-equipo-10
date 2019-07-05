@@ -28,9 +28,14 @@
 			<h3>General</h3>
 			<ul class="nav side-menu">
 				<li>
-					<a th:href="@{'/admin/doc/'}">
-						<i class="fa fa-book"></i> Documentos
+					<a>
+						<i class="fa fa-book"></i> Documentos 
+						<span class="fa fa-chevron-down"></span>
 					</a>
+					<ul class="nav child_menu">
+						<li><a th:href="@{'/admin/doc/'}">Subir documentos</a></li>
+						<li><a th:href="@{'/admin/solicitud/'}">Generar solicitud</a></li>
+					</ul>
 				</li>
 				<li>
 					<a th:href="@{'/admin/usuario/'}">
