@@ -3,6 +3,7 @@ encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/templates/views/admin/home/documentos.html=UTF-8
 encoding//src/main/resources/templates/views/admin/home/index.html=UTF-8
+encoding//src/main/resources/templates/views/admin/home/usuario.html=UTF-8
 encoding//src/main/resources/templates/views/admin/layout/header.html=UTF-8
 encoding//src/main/resources/templates/views/admin/layout/menu.html=UTF-8
 encoding//src/main/resources/templates/views/login/index.html=UTF-8

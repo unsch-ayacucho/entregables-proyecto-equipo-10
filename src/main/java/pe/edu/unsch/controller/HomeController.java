@@ -156,7 +156,58 @@ public class HomeController {
 	    
 	    return null;
 	}
+	
+	
+	@PostMapping("/change-pass")
+	public String change_pass(HttpServletRequest request, HttpSession session, Model model, RedirectAttributes redir) {
+		int resp = 0;
+		
+		try{
+			if(request.getParameter("password_n1").equals(request.getParameter("password_n2"))) {
+				resp = this.usuarioService.changePass(request.getParameter("password_old"), request.getParameter("password_n2"), ((Usuario) session.getAttribute("usuario")).getIdusuario());
+				if(resp == 0) {
+					redir.addFlashAttribute("error", "La clave actual no coincide.");
+					return "redirect:/admin/usuario";
+				} else if (resp == 1) {
+					redir.addFlashAttribute("acierto", "La clave se cambió con éxito.");
+					return "redirect:/admin/usuario";
+				} else {
+					redir.addFlashAttribute("error", "Algo salió mal...");
+					return "redirect:/admin/usuario";
+				}
+			} else {
+				redir.addFlashAttribute("error", "Las claves nuevas no coinciden.");
+				return "redirect:/admin/usuario";
+			}
+			
+		}			
+		catch(Exception err) {
+			err.printStackTrace();
+			redir.addFlashAttribute("error", "Algo salió mal...");
+			return "redirect:/admin/usuario";
+		}
+	}
 
-
+	@PostMapping("/change-param")
+	public String change_param(HttpServletRequest request, HttpSession session, Model model, RedirectAttributes redir) {
+		int resp = 0;
+		
+		try{
+			resp = this.usuarioService.changeParam(request.getParameter("celular"), request.getParameter("domicilio"), ((Usuario) session.getAttribute("usuario")).getIdusuario());
+			if(resp == 0) {
+				redir.addFlashAttribute("error", "Algo salió mal...");
+				return "redirect:/admin/usuario";
+			} else {
+				redir.addFlashAttribute("acierto", "Datos guardados con éxito.");
+				return "redirect:/admin/usuario";
+			}
+			
+		}			
+		catch(Exception err) {
+			err.printStackTrace();
+			redir.addFlashAttribute("error", "Algo salió mal...");
+			return "redirect:/admin/usuario";
+		}
+	}
 
 }

@@ -25,6 +25,16 @@ public class UsuarioServiceImpl implements UsuarioService{
 		return usuarioDao.datosUsuario(l);
 	}
 	
+	@Override
+	public int changePass(String old_pass, String new_pass, long l) {
+		return usuarioDao.changePass(old_pass, new_pass, l);
+	}
+
+	@Override
+	public int changeParam(String new_celular, String new_domicilio, long l) {
+		return usuarioDao.changeParam(new_celular, new_domicilio, l);
+	}
+	
 }
 
 

@@ -29,34 +29,142 @@
 							<div class="row x_title">
 								<div class="col-md-6">
 									<h3>
-										Home
+										Mi configuración de usuario
 									</h3>
 								</div>
-								<div class="col-md-6">
-									<div id="reportrange" class="pull-right"
-										style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-										<i class="glyphicon glyphicon-calendar fa fa-calendar"></i> <span>June
-											9, 2018 - July 8, 2018</span> <b class="caret"></b>
+							</div>
+							<form th:action="@{/admin/change-param}" method="POST">
+								<div class="row col-md-12 col-sm-12 col-xs-12 bg-white" style="margin-bottom: 10px; margin-top: 5px;">
+								
+									<div class="col-md-3 col-sm-3 col-xs-3">
+										<label path="idusuario" style="margin-right: 5px;">ID USUARIO: </label>
+										<input type="text" name="idusuario" maxlength="50" disabled th:value="${user.getIdusuario()}" />
+									</div>	
+	
+	
+									<div class="pull-right">
+										<label path="iddocente" style="margin-right: 5px;">ID DOCENTE: </label>
+										<input type="text" name="iddocente" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getIddocente()}" />
+									</div>								
+									
+								</div>
+								
+								<hr style="width: 100%; color: grey; height: 1px; background-color: grey;" />
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12 bg-white" style="margin-top: 10px;">
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-5 col-sm-5 col-xs-5" path="nrodoc">Nº DOC: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name=""nrodoc"" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getNrodoc()}" />
+									</div>	
+	
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-4 col-sm-4 col-xs-4" path="fechaNacimiento">FECHA NACIMIENTO: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="fechaNacimiento" maxlength="50" disabled th:value="${#dates.format(user.getDocentes().stream().findFirst().get().getFechaNacimiento(), 'dd/MM/yyyy | hh:mm a')}" />
+									</div>
+									
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-4 col-sm-4 col-xs-4" path="categoria">CATEGORÍA: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="categoria" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getCategoria()}" />
+									</div>							
+								</div>
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12 bg-white" style="margin-top: 10px;">
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-5 col-sm-5 col-xs-5" path="apepaterno">APELLIDO PATERNO: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="apepaterno" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getApepaterno()}" />
+									</div>	
+	
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-4 col-sm-4 col-xs-4" path="apematerno">APELLIDO MATERNO: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="apematerno" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getApematerno()}" />
+									</div>
+									
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-4 col-sm-4 col-xs-4" path="nombres">NOMBRES: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="nombres" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getNombres()}" />
+									</div>							
+								</div>
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12 bg-white" style="margin-top: 10px;">
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-5 col-sm-5 col-xs-5" path="usuario">USUARIO: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="usuario" maxlength="50" disabled th:value="${user.getUsuario()}" />
+									</div>	
+	
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-4 col-sm-4 col-xs-4" path="cargo">CARGO: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="cargo" maxlength="50" disabled th:value="${user.getCargo()}" />
+									</div>
+									
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-4 col-sm-4 col-xs-4" path="sexo">SEXO: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="sexo" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getSexo().toUpperCase()}" />
+									</div>							
+								</div>
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12 bg-white" style="margin-top: 10px;">
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-5 col-sm-5 col-xs-5" path="esAdmin">¿ES ADMINISTRADOR?: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="esAdmin" maxlength="50" disabled th:value="${user.isEsAdmin()}" />
+									</div>	
+	
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-4 col-sm-4 col-xs-4" path="celular">CELULAR: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="celular" maxlength="50" required="" th:value="${user.getDocentes().stream().findFirst().get().getCelular()}" />
+									</div>
+									
+									<div class="col-md-4 col-sm-4 col-xs-4">
+										<label class="col-md-4 col-sm-4 col-xs-4" path="domicilio">DOMICILIO: </label>
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="domicilio" maxlength="50" required="" th:value="${user.getDocentes().stream().findFirst().get().getDomicilio()}" />
+									</div>							
+								</div>
+							
+								<div class="row col-md-12 col-sm-12 col-xs-12 bg-white" style="margin-top: 20px; margin-left: 20px;">
+									<button type="submit" class="btn btn-primary">Guardar cambios</button>
+									<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalChangePass" th:attr="data-target='#modalChangePass'" >Cambiar contraseña</button>
+								</div>
+	
+							</form>
+							
+							<div class="modal fade in" th:id="modalChangePass">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true"></span></button>
+											<h3 class="modal-title">Cambiar contraseña</h3>
+										</div>
+										<div class="modal-body">
+											<form th:action="@{/admin/change-pass}" method="POST">
+												<div class="row col-md-12 col-sm-12 col-xs-12 bg-white" style="margin-top: 5px; margin-bottom: 20px;">
+													<div class="col-md-12 col-sm-12 col-xs-12">
+														<label class="col-md-6 col-sm-6 col-xs-6" path="password_old">ANTIGUA CONTRASEÑA: </label>
+														<input class="col-md-6 col-sm-6 col-xs-6" type="password" required="" name="password_old" maxlength="50"  />
+													</div>	
+					
+													<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 15px;">
+														<label class="col-md-6 col-sm-6 col-xs-6" path="password_n1">NUEVA CONTRASEÑA: </label>
+														<input class="col-md-6 col-sm-6 col-xs-6" type="password" required="" name="password_n1" maxlength="50" />
+													</div>
+													
+													<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: 15px;">
+														<label class="col-md-6 col-sm-6 col-xs-6" path="password_n2">REPITA NUEVA CONTRASEÑA: </label>
+														<input class="col-md-6 col-sm-6 col-xs-6" type="password" required="" name="password_n2" maxlength="50" />
+													</div>							
+												</div>
+												
+												<button class="btn btn-success pull-right" type="submit">Subir</button>
+												<button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancelar</button>												
+											</form>
+										</div>
 									</div>
 								</div>
 							</div>
-							
-							<div class="row col-md-12 col-sm-12 col-xs-12 bg-white pull-right">
-
-									<label path="idusuario" style="margin-right: 5px;">ID USUARIO: </label>
-									<input type="text" name="idusuario" maxlength="50" disabled th:value="${user.getIdusuario()}" />
-
-								<div class="pull-right">
-									<label path="iddocente" style="margin-right: 5px;">ID DOCENTE: </label>
-									<input type="text" name="iddocente" maxlength="50" disabled />
-								</div>								
-								
-							</div>
-							
-						
 
 							<div class="clearfix"></div>
 						</div>
+						<h5 th:text="${error}" style="color: red; margin-top: 20px;"></h5>
+						<h5 th:text="${acierto}" style="color: green; margin-top: 25px;"></h5>
 					</div>
 
 				</div>
