@@ -3,6 +3,7 @@ package pe.edu.unsch.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -46,6 +47,21 @@ public class HomeController {
 			} else {
 				model.addAttribute("title", "Dashboard");
 				return "views/admin/home/index";
+			}
+		} catch(NullPointerException npe) {
+			return "redirect:/login";
+		}
+	}
+	
+	@GetMapping("/convocatoria")
+	public String conv(HttpSession session, Model model) {
+		try {
+			if(((Usuario) session.getAttribute("usuario")).getUsuario() == null || ((Usuario) session.getAttribute("usuario")).getUsuario().equals("")) {
+				return "redirect:/login";
+			} else {
+				model.addAttribute("title", "Convocatoria");
+				return "views/admin/home/convocatoria";
+				
 			}
 		} catch(NullPointerException npe) {
 			return "redirect:/login";
@@ -129,20 +145,39 @@ public class HomeController {
 	
 	@PostMapping("/save-doc")
 	public String saveDoc(HttpServletRequest request, @RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
-		this.archivoService.saveDocumento(file, name);
+		if(!name.trim().toLowerCase().equals("solicitud")) {
+			this.archivoService.saveDocumento(file, name);
+		}
 		return "redirect:/admin/doc";
 	}
 	
 	@PostMapping("/save-doc-gen")
-	public String saveDocGen(HttpServletRequest request, @RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
+	public String saveDocGen(HttpServletRequest request, @RequestParam("file") MultipartFile file, @RequestParam("name") String name, RedirectAttributes redir) {
 		this.archivoService.saveDocumento(file, name);
+		redir.addFlashAttribute("acierto2", "Se subió la solicitud correctamente.");
 		return "redirect:/admin/solicitud";
 	}
 	
 	@PostMapping("/gen-solicitud")
-	public String genSolicitud(HttpServletRequest request, @RequestParam("name") String name) {
-		this.archivoService.genSolicitud(name);
-		return "redirect:/admin/solicitud";
+	public String genSolicitud(HttpServletRequest request, @RequestParam("name") String name, @RequestParam("last_name") String last_name,
+			@RequestParam("doc") String doc, @RequestParam("categoria_actual") String categoria_actual, @RequestParam("categoria_nueva") String categoria_nueva,
+			@RequestParam("domicilio") String domicilio, HttpServletResponse response) {
+		
+		InputStream input = this.archivoService.genSolicitud(name, last_name, doc, categoria_actual, categoria_nueva, domicilio);
+		
+		try {
+			response.setHeader("Content-Disposition", "attachment;filename=solicitud.pdf");
+			OutputStream out = response.getOutputStream();
+			response.setContentType("application/pdf");
+			IOUtils.copy(input, out);
+			out.flush();
+			out.close();
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+			
+		return null;
 	}
 	
 	@RequestMapping("/remove-doc/{idArchivo}")

@@ -35,22 +35,41 @@
 							</div>
 							
 							<form th:action="@{/admin/gen-solicitud}" method="POST">
-								<div class="row col-md-12 col-sm-12 col-xs-12">
-									<label path="name">Nombre: </label>
-									<input type="text" required="" name="name" maxlength="50" value="Solicitud" style="margin-left: 5px;" readonly />
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Apellidos: </label>
+									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="last_name" maxlength="50" th:value="${user.getDocentes().stream().findFirst().get().getApepaterno() + ' ' + user.getDocentes().stream().findFirst().get().getApematerno()}" style="margin-left: 5px;" />
 								</div>
 								
-								<div class="row col-md-12 col-sm-12 col-xs-12">
-									<label path="name">Categoría actual: </label>
-									<input type="text" required="" name="categorian" maxlength="50" value="Solicitud" style="margin-left: 5px;" readonly />
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Nombres: </label>
+									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="name" maxlength="50" th:value="${user.getDocentes().stream().findFirst().get().getNombres()}" style="margin-left: 5px;" />
 								</div>
 								
-								<div class="row col-md-12 col-sm-12 col-xs-12">
-									<label path="name">Categoría : </label>
-									<input type="text" required="" name="categorian" maxlength="50" value="Solicitud" style="margin-left: 5px;" readonly />
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="name">DNI: </label>
+									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="doc" maxlength="50" th:value="${user.getDocentes().stream().findFirst().get().getNrodoc()}" style="margin-left: 5px;" />
 								</div>
-												
-								<button class="btn btn-success pull-right" type="submit">Subir</button>												
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Domicilio: </label>
+									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="domicilio" maxlength="50" th:value="${user.getDocentes().stream().findFirst().get().getDomicilio()}" style="margin-left: 5px;" />
+								</div>
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Categoría actual: </label>
+									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="categoria_actual" maxlength="50" th:value="${user.getDocentes().stream().findFirst().get().getCategoria()}" style="margin-left: 5px;" />
+								</div>
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Categoría a postular: </label>
+									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="categoria_nueva" maxlength="50" value="" style="margin-left: 5px;" />
+								</div>
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<h5 th:text="${acierto1}" style="color: green; margin-top: 25px;"></h5>
+								</div>
+									
+								<button class="btn btn-success pull-right" data-toggle="modal" data-target="#modalGenerar" type="submit">Generar</button>												
 							</form>
 											
 
@@ -78,6 +97,10 @@
 								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;">
 									<label path="file">Archivo</label>
 									<input type="file" required="" name="file" class="form-control-file" accept=".doc,.docx,.pdf,.jpg,.jpeg" />
+								</div>
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+									<h5 th:text="${acierto2}" style="color: green; margin-top: 20px;"></h5>
 								</div>
 												
 								<button class="btn btn-success pull-right" type="submit">Subir</button>												

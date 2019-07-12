@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<div th:replace="views/admin/layout/layout :: head"></div>
+<link rel="stylesheet" th:href="@{/admin/css/bootstrap-progressbar-3.3.4.min.css}" />
+<link rel="stylesheet" th:href="@{/admin/css/jqvmap.min.css}" />
+</head>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<!-- sidebar menu -->
+			<div th:replace="views/admin/layout/layout :: menu"></div>
+			<!-- /sidebar menu -->
+
+			<!-- top navigation -->
+			<div th:replace="views/admin/layout/layout :: header"></div>
+			<!-- /top navigation -->
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<!-- top tiles -->
+				<h1>DASHBOARD</h1>
+				<!-- /top tiles -->
+
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-md-6 col-sm-6 col-xs-6">
+						<div class="dashboard_graph">
+
+							<div class="row x_title">
+								<div class="col-md-6">
+									<h3>
+										¡Convocatoria en curso!
+									</h3>
+								</div>
+							</div>
+							
+
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					
+					<div class="col-md-5 col-sm-5 col-xs-5 pull-right">
+						<div class="dashboard_graph">
+
+							<div class="row x_title">
+								<div class="col-md-6">
+									<h3>
+										Participar en convocatoria
+									</h3>
+								</div>
+							</div>
+							
+											
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+
+				</div>
+				<br>
+
+			</div>
+			<!-- /page content -->
+
+			<!-- footer content -->
+			<footer>
+				<div th:replace="views/admin/layout/layout :: footer"></div>
+				<script th:src="@{/admin/js/Chart.min.js}"></script>
+				<script th:src="@{/admin/js/gauge.min.js}"></script>
+				<script th:src="@{/admin/js/bootstrap-progressbar.min.js}"></script>
+				
+				<script th:src="@{/admin/js/icheck.min.js}"></script>
+				<script th:src="@{/admin/js/skycons.js}"></script>
+				<script th:src="@{/admin/js/jquery.flot.js}"></script>
+				
+				<script th:src="@{/admin/js/jquery.flot.pie.js}"></script>
+				<script th:src="@{/admin/js/jquery.flot.time.js}"></script>
+				<script th:src="@{/admin/js/jquery.flot.stack.js}"></script>
+				
+				<script th:src="@{/admin/js/jquery.flot.orderBars.js}"></script>
+				<script th:src="@{/admin/js/jquery.flot.spline.min.js}"></script>
+				<script th:src="@{/admin/js/curvedLines.js}"></script>
+				
+				<script th:src="@{/admin/js/date.js}"></script>
+				<script th:src="@{/admin/js/jquery.vmap.js}"></script>
+				<script th:src="@{/admin/js/jquery.vmap.world.js}"></script>
+				
+				<script th:src="@{/admin/js/jquery.vmap.sampledata.js}"></script>
+				<script th:src="@{/admin/js/moment.min.js}"></script>
+				<script th:src="@{/admin/js/daterangepicker.js}"></script>
+				<script th:src="@{/admin/js/jsFlot.js}"></script>
+			</footer>
+			<!-- /footer content -->
+		</div>
+	</div>
+</body>
+</html>

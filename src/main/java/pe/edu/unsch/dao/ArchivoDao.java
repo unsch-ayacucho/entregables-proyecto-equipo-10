@@ -1,5 +1,6 @@
 package pe.edu.unsch.dao;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -15,5 +16,5 @@ public interface ArchivoDao {
 	
 	public void removeDocumento(long l);
 
-	public void genSolicitud(String name);
+	public InputStream genSolicitud(String name, String last_name, String doc, String categoria_actual, String categoria_nueva, String domicilio);
 }

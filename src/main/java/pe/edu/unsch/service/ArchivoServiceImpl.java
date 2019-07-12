@@ -1,5 +1,6 @@
 package pe.edu.unsch.service;
 
+import java.io.InputStream;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -40,8 +41,8 @@ public class ArchivoServiceImpl implements ArchivoService {
 	}
 
 	@Override
-	public void genSolicitud(String name) {
-		archivoDao.genSolicitud(name);
+	public InputStream genSolicitud(String name, String last_name, String doc, String categoria_actual, String categoria_nueva, String domicilio) {
+		return archivoDao.genSolicitud(name, last_name, doc, categoria_actual, categoria_nueva, domicilio);
 		
 	}
 	
