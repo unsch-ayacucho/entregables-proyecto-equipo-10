@@ -3,11 +3,11 @@
 <head th:fragment="head" th:remove="tag">
 <meta charset="utf-8">
 <title th:text="${title}"></title>
-<link rel="stylesheet" th:href="@{/admin/css/bootstrap.min.css}" />
-<link rel="stylesheet" th:href="@{/admin/font-awesome/css/font-awesome.min.css}" />
-<link rel="stylesheet" th:href="@{/admin/css/nprogress.css}" />
-<link rel="stylesheet" th:href="@{/admin/css/green.css}" />
-<link rel="stylesheet" th:href="@{/admin/css/custom.min.css}" />
+<link rel="stylesheet" th:href="@{/private/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/private/font-awesome/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/private/css/nprogress.css}" />
+<link rel="stylesheet" th:href="@{/private/css/green.css}" />
+<link rel="stylesheet" th:href="@{/private/css/custom.min.css}" />
 </head>
 <body class="nav-md">
 	<div class="container body">
@@ -30,6 +30,8 @@
 			</div>
 			<!-- /page content -->
 			
+			
+			
 			<!-- footer content -->
 			<footer th:fragment="footer" th:remove="tag">
 				<div class="pull-right">
@@ -37,11 +39,11 @@
 					<a href="https://twitter.com/fbarrientose">Fredy Barrientos</a>
 				</div>
 				<div class="clearfix"></div>
-				<script th:src="@{/admin/js/jquery.min.js}"></script>
-				<script th:src="@{/admin/js/bootstrap.min.js}"></script>
-				<script th:src="@{/admin/js/fastclick.js}"></script>
-				<script th:src="@{/admin/js/nprogress.js}"></script>
-				<script th:src="@{/admin/js/custom.min.js}"></script>
+				<script th:src="@{/private/js/jquery.min.js}"></script>
+				<script th:src="@{/private/js/bootstrap.min.js}"></script>
+				<script th:src="@{/private/js/fastclick.js}"></script>
+				<script th:src="@{/private/js/nprogress.js}"></script>
+				<script th:src="@{/private/js/custom.min.js}"></script>
 			</footer>
 			<!-- /footer content -->
 		</div>

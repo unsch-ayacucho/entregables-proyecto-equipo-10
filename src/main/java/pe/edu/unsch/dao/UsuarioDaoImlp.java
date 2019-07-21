@@ -2,8 +2,10 @@ package pe.edu.unsch.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import pe.edu.unsch.entities.Docente;
 import pe.edu.unsch.entities.Usuario;
@@ -30,11 +32,14 @@ public class UsuarioDaoImlp implements UsuarioDao {
 		return (Usuario) entityManager.find(Usuario.class, l);
 	}
 	
+	@Transactional
 	@Override
 	public int changePass(String old_pass, String new_pass, long l) {
+		BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
 		Usuario user = (Usuario) entityManager.find(Usuario.class, l);
-		if(user.getPassword().equals(old_pass)) {
-			user.setPassword(new_pass);
+		String new_pass_c = enc.encode(new_pass);
+		if(enc.matches(old_pass, user.getPassword())) {
+			user.setPassword(new_pass_c);
 			try {
 				entityManager.merge(user);
 				return 1;
@@ -46,7 +51,8 @@ public class UsuarioDaoImlp implements UsuarioDao {
 			return 0;
 		}
 	}
-
+	
+	@Transactional
 	@Override
 	public int changeParam(String new_celular, String new_domicilio, long l) {
 		Usuario user = (Usuario) entityManager.find(Usuario.class, l);

@@ -1,5 +1,5 @@
 package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
+// Generated Jul 21, 2019, 9:48:04 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.HashSet;
@@ -25,28 +25,27 @@ public class Usuario  implements java.io.Serializable {
      private String usuario;
      private String password;
      private String cargo;
-     private boolean esAdmin;
      private Set<Docente> docentes = new HashSet<Docente>(0);
+     private Set<UsuarioPerfil> usuarioPerfils = new HashSet<UsuarioPerfil>(0);
      private Set<JefeDepartamento> jefeDepartamentos = new HashSet<JefeDepartamento>(0);
 
     public Usuario() {
     }
 
 	
-    public Usuario(long idusuario, String usuario, String password, String cargo, boolean esAdmin) {
+    public Usuario(long idusuario, String usuario, String password, String cargo) {
         this.idusuario = idusuario;
         this.usuario = usuario;
         this.password = password;
         this.cargo = cargo;
-        this.esAdmin = esAdmin;
     }
-    public Usuario(long idusuario, String usuario, String password, String cargo, boolean esAdmin, Set<Docente> docentes, Set<JefeDepartamento> jefeDepartamentos) {
+    public Usuario(long idusuario, String usuario, String password, String cargo, Set<Docente> docentes, Set<UsuarioPerfil> usuarioPerfils, Set<JefeDepartamento> jefeDepartamentos) {
        this.idusuario = idusuario;
        this.usuario = usuario;
        this.password = password;
        this.cargo = cargo;
-       this.esAdmin = esAdmin;
        this.docentes = docentes;
+       this.usuarioPerfils = usuarioPerfils;
        this.jefeDepartamentos = jefeDepartamentos;
     }
    
@@ -92,16 +91,6 @@ public class Usuario  implements java.io.Serializable {
         this.cargo = cargo;
     }
 
-    
-    @Column(name="es_admin", nullable=false)
-    public boolean isEsAdmin() {
-        return this.esAdmin;
-    }
-    
-    public void setEsAdmin(boolean esAdmin) {
-        this.esAdmin = esAdmin;
-    }
-
 @OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
     public Set<Docente> getDocentes() {
         return this.docentes;
@@ -109,6 +98,15 @@ public class Usuario  implements java.io.Serializable {
     
     public void setDocentes(Set<Docente> docentes) {
         this.docentes = docentes;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")
+    public Set<UsuarioPerfil> getUsuarioPerfils() {
+        return this.usuarioPerfils;
+    }
+    
+    public void setUsuarioPerfils(Set<UsuarioPerfil> usuarioPerfils) {
+        this.usuarioPerfils = usuarioPerfils;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="usuario")

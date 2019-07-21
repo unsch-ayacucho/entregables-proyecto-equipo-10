@@ -1,5 +1,5 @@
 package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
+// Generated Jul 21, 2019, 9:48:04 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import javax.persistence.Column;

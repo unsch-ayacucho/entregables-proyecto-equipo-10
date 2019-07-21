@@ -10,12 +10,12 @@
 	<div class="profile">
 		<div class="profile_pic">
 			<img
-				th:src="@{/admin/images/img.jpg}"
+				th:src="@{/private/images/img.jpg}"
 				alt="..." class="img-circle profile_img">
 		</div>
 		<div class="profile_info">
 			<span>Bienvenido,</span>
-			<h2 th:text="${session.usuario.getUsuario()}"></h2>
+			<h2 th:text="${usuario.getUsuario()}"></h2>
 		</div>
 	</div>
 	<!-- /menu profile quick info -->
@@ -98,7 +98,7 @@
 			<span class="fa fa-expand" aria-hidden="true"></span>
 		</a> <a data-toggle="tooltip" data-placement="top" title="Lock"> <span
 			class="fa fa-eye-slash" aria-hidden="true"></span>
-		</a> <a data-toggle="tooltip" data-placement="top" title="Logout"> <span
+		</a> <a href="javascript: document.logoutForm.submit()" data-toggle="tooltip" data-placement="top" title="Logout"> <span
 			class="fa fa-power-off" aria-hidden="true"></span>
 		</a>
 	</div>
