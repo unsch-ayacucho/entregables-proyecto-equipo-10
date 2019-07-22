@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,19 +29,32 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import pe.edu.unsch.entities.Archivo;
-import pe.edu.unsch.entities.Docente;
+import pe.edu.unsch.entities.Expediente;
+import pe.edu.unsch.service.ExpedienteService;
+import pe.edu.unsch.service.HistorialService;
 
 @Repository("archivoDao")
 public class ArchivoDaoImpl implements ArchivoDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private ExpedienteService expedienteService;
+	
+	@Autowired
+	private HistorialService historialService;
+	
+	@Override
+	public Archivo getArchivo(long l) {
+		return (Archivo) entityManager.find(Archivo.class, l);
+	}
 
 	@Override
 	public List<Archivo> listarDocumentos(long l) {
 		return (List<Archivo>) entityManager
-				.createQuery("select new Archivo(arc.idarchivo as idarchivo, arc.nombre as nombre, arc.fullnombre as fullnombre, arc.tipo as tipo, arc.data as data, arc.fecha as fecha) from Archivo arc inner join arc.docente doc inner join doc.usuario usu where usu.idusuario = :idUsuario", Archivo.class)
-				.setParameter("idUsuario", l)
+				.createQuery("select new Archivo(arc.idarchivo as idarchivo, arc.nombre as nombre, arc.fullnombre as fullnombre, arc.tipo as tipo, arc.data as data, arc.fecha as fecha) from Archivo arc inner join arc.expediente exp where exp.idexpediente = :idExpediente", Archivo.class)
+				.setParameter("idExpediente", l)
 				.getResultList();
 	}
 	
@@ -50,25 +64,64 @@ public class ArchivoDaoImpl implements ArchivoDao {
 	}
 
 	@Override
-	public void saveDocumento(MultipartFile data, String nombre) {
-		Docente doc = entityManager.getReference(Docente.class, (long) 1);
-		
-		System.out.println(data.getContentType());
+	public void saveDocumento(MultipartFile data, String nombre, long idExpediente) {
+		Expediente exp = entityManager.getReference(Expediente.class, idExpediente);
+
 		try {
-			entityManager.persist(new Archivo(doc, nombre, data.getOriginalFilename(), data.getContentType(), data.getBytes(), new Date()));
+			if(!exp.getIsClosed() && !exp.isIsActive()) {
+				entityManager.persist(new Archivo(exp, nombre, data.getOriginalFilename(), data.getContentType(), data.getBytes(), new Date()));
+				this.historialService.newHistorial(exp.getDocente().getUsuario().getIdusuario(), "Nuevo archivo con nombre <" + nombre + "> y nombre de fichero <" + data.getOriginalFilename() + ">  agregado al expediente de nombre <" + exp.getNombre() + ">.");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public int saveSolicitud(MultipartFile data, long idExpediente) {
+		Expediente exp = entityManager.getReference(Expediente.class, idExpediente);
+
+		try {
+			if(!exp.getIsClosed() && !exp.isIsActive()) {
+				if(exp.isHaveSolicitud()) {
+					Archivo arch = entityManager.createQuery("from Archivo where idexpediente = :idexpediente and nombre = 'Solicitud'", Archivo.class)
+					.setParameter("idexpediente", idExpediente)
+					.getSingleResult();
+					entityManager.remove(arch);
+					entityManager.persist(new Archivo(exp, "Solicitud", data.getOriginalFilename(), data.getContentType(), data.getBytes(), new Date()));
+					this.historialService.newHistorial(exp.getDocente().getUsuario().getIdusuario(), "Solicitud de promoción reemplazada (sobreescrita) en el expediente con nombre <" + exp.getNombre() + ">.");
+					return 0;		
+				} else {
+					entityManager.persist(new Archivo(exp, "Solicitud", data.getOriginalFilename(), data.getContentType(), data.getBytes(), new Date()));
+					this.expedienteService.addSolicitud(idExpediente);
+					return 1;
+				}
+			} else {
+				return -1;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+			return -1;
 		}
 	}
 
 	@Override
 	public void removeDocumento(long l) {
-		Archivo arch = entityManager.getReference(Archivo.class, (long) l);
-		entityManager.remove(arch);
+		Archivo arch = entityManager.getReference(Archivo.class, l);
+		Expediente exp = arch.getExpediente();
+		if(!exp.getIsClosed() && !exp.isIsActive()) {
+			entityManager.remove(arch);
+			if(arch.getNombre().equals("Solicitud")) {
+				this.historialService.newHistorial(exp.getDocente().getUsuario().getIdusuario(),  "Solicitud de promoción removida del expediente con nombre <" + exp.getNombre() + ">.");
+			} else {
+				this.historialService.newHistorial(exp.getDocente().getUsuario().getIdusuario(), "Archivo con nombre <" + arch.getNombre() + ">, nombre de fichero <" + arch.getFullnombre() + "> y perteneciente al expediente de nombre <" + exp.getNombre() + "> eliminado.");
+			}
+		}
 	}
 
 	@Override
-	public InputStream genSolicitud(String name, String last_name, String doc, String categoria_actual, String categoria_nueva, String domicilio) {
+	public InputStream genSolicitud(String name, String last_name, String doc, String categoria_actual, String categoria_nueva, String domicilio, long idusuario) {
 		try {
 			Document document = new Document(PageSize.A4, 65, 65, 60, 60);
 			
@@ -194,6 +247,8 @@ public class ArchivoDaoImpl implements ArchivoDao {
 			document.close();
 			
 			InputStream input = new ByteArrayInputStream(out.toByteArray());
+			
+			this.historialService.newHistorial(idusuario, "Solicitud de promoción con remitente <" + full_name + ">, para la categoría de profesor <" + categoria_nueva + "> generada.");
 			
 			return input;
 		} catch (DocumentException e) {

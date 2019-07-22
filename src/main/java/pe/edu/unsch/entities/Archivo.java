@@ -1,5 +1,5 @@
 package pe.edu.unsch.entities;
-// Generated Jun 28, 2019, 3:58:00 PM by Hibernate Tools 4.3.2-SNAPSHOT
+// Generated Jul 22, 2019, 6:29:25 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
@@ -26,7 +26,7 @@ public class Archivo  implements java.io.Serializable {
 
 
      private Long idarchivo;
-     private Docente docente;
+     private Expediente expediente;
      private String nombre;
      private String fullnombre;
      private String tipo;
@@ -36,8 +36,8 @@ public class Archivo  implements java.io.Serializable {
     public Archivo() {
     }
 
-    public Archivo(Docente docente, String nombre, String fullnombre, String tipo, byte[] data, Date fecha) {
-       this.docente = docente;
+    public Archivo(Expediente expediente, String nombre, String fullnombre, String tipo, byte[] data, Date fecha) {
+       this.expediente = expediente;
        this.nombre = nombre;
        this.fullnombre = fullnombre;
        this.tipo = tipo;
@@ -74,13 +74,13 @@ public class Archivo  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="iddocente", nullable=false)
-    public Docente getDocente() {
-        return this.docente;
+    @JoinColumn(name="idexpediente", nullable=false)
+    public Expediente getExpediente() {
+        return this.expediente;
     }
     
-    public void setDocente(Docente docente) {
-        this.docente = docente;
+    public void setExpediente(Expediente expediente) {
+        this.expediente = expediente;
     }
 
     
@@ -92,6 +92,7 @@ public class Archivo  implements java.io.Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     
     @Column(name="fullnombre", nullable=false, length=100)
     public String getFullnombre() {

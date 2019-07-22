@@ -1,5 +1,5 @@
 package pe.edu.unsch.entities;
-// Generated Jul 21, 2019, 9:48:04 AM by Hibernate Tools 4.3.2-SNAPSHOT
+// Generated Jul 22, 2019, 6:29:25 AM by Hibernate Tools 4.3.2-SNAPSHOT
 
 
 import java.util.Date;
@@ -40,7 +40,7 @@ public class Docente  implements java.io.Serializable {
      private String celular;
      private String sexo;
      private Set<Promocion> promocions = new HashSet<Promocion>(0);
-     private Set<Archivo> archivos = new HashSet<Archivo>(0);
+     private Set<Expediente> expedientes = new HashSet<Expediente>(0);
      private Set<ComisionMiembro> comisionMiembros = new HashSet<ComisionMiembro>(0);
 
     public Docente() {
@@ -56,7 +56,7 @@ public class Docente  implements java.io.Serializable {
         this.nrodoc = nrodoc;
         this.fechaNacimiento = fechaNacimiento;
     }
-    public Docente(Usuario usuario, String categoria, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaNacimiento, String domicilio, String celular, String sexo, Set<Promocion> promocions, Set<Archivo> archivos, Set<ComisionMiembro> comisionMiembros) {
+    public Docente(Usuario usuario, String categoria, String nombres, String apepaterno, String apematerno, String nrodoc, Date fechaNacimiento, String domicilio, String celular, String sexo, Set<Promocion> promocions, Set<Expediente> expedientes, Set<ComisionMiembro> comisionMiembros) {
        this.usuario = usuario;
        this.categoria = categoria;
        this.nombres = nombres;
@@ -68,7 +68,7 @@ public class Docente  implements java.io.Serializable {
        this.celular = celular;
        this.sexo = sexo;
        this.promocions = promocions;
-       this.archivos = archivos;
+       this.expedientes = expedientes;
        this.comisionMiembros = comisionMiembros;
     }
    
@@ -194,12 +194,12 @@ public class Docente  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="docente")
-    public Set<Archivo> getArchivos() {
-        return this.archivos;
+    public Set<Expediente> getExpedientes() {
+        return this.expedientes;
     }
     
-    public void setArchivos(Set<Archivo> archivos) {
-        this.archivos = archivos;
+    public void setExpedientes(Set<Expediente> expedientes) {
+        this.expedientes = expedientes;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="docente")

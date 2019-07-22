@@ -19,7 +19,7 @@
 			<!-- page content -->
 			<div class="right_col" role="main">
 				<!-- top tiles -->
-				<h1>DOCUMENTOS: </h1>
+				<h1>EXPEDIENTES</h1>
 				<!-- /top tiles -->
 
 				<div class="row" style="margin-top: 20px;">
@@ -29,7 +29,7 @@
 							<div class="row x_title">
 								<div class="col-md-6">
 									<h3>
-										Mis documentos probatorios
+										Lista de expedientes
 									</h3>
 								</div>
 								<div class="col-md-6">
@@ -46,82 +46,74 @@
 									<thead>
 										<tr>
 											<th>#</th>
-											<th>Nombre del documento</th>
-											<th>Fecha de subida</th>
-											<th>Tipo</th>
-											<th style="text-align: center;">Visualizar</th>
-											<th style="text-align: center;">Descargar</th>
-											<th style="text-align: center;" th:if="${bool}">Eliminar</th>
+											<th>Nombre del expediente</th>
+											<th>Fecha de creación</th>
+											<th>Fecha de cierre</th>
+											<th>¿En trámite?</th>
+											<th style="text-align: center;">Manipular</th>
+											<th style="text-align: center;">Eliminar</th>
 										</tr>
 									</thead>
 									<tbody>
-										 <tr th:each="r : ${docs}">
-											<td th:text="${rStat.index} + 1" style="vertical-align: middle;"></td>
-											<td th:text="${r.nombre}" style="vertical-align: middle;"></td>
-											<td th:text="${#dates.format(r.fecha, 'dd/MM/yyyy | hh:mm a')}" style="vertical-align: middle;"></td>
-											<td th:text="${r.fullnombre.substring(r.fullnombre.lastIndexOf('.') + 1).toUpperCase()}" style="vertical-align: middle;"></td>
+										 <tr th:each="e : ${expedientes}">
+											<td th:text="${eStat.index} + 1" style="vertical-align: middle;"></td>
+											<td th:text="${e.nombre}" style="vertical-align: middle;"></td>
+											<td th:text="${#dates.format(e.fechaCreacion, 'dd/MM/yyyy | hh:mm a')}" style="vertical-align: middle;"></td>
+											<td th:text="${e.fechaCierre != null ? #dates.format(e.fechaCierre, 'dd/MM/yyyy | hh:mm a') : 'No cerrado aún'}" style="vertical-align: middle;"></td>
+											<td th:text="${e.isActive == true ? 'Sí' : 'No'}" style="vertical-align: middle;"></td>
 											
 											
 											<td style="text-align: center;">
-												<a target="_blank" th:href="@{'/admin/download-doc/p/' + ${r.idarchivo}}" th:if="${!r.fullnombre.substring(r.fullnombre.lastIndexOf('.') + 1).toUpperCase().matches('DOCX|DOC|PPT|PPTX|XLS|XLSX')}">
+												<a th:href="@{'/admin/exp-doc/' + ${e.idexpediente}}" th:if="${e.isActive != true && e.isClosed != true}">
 													<button type="button" class="btn btn-info" style="margin: 0; padding: 0 5px;">
-														<span class="fa fa-file" aria-hidden="true"></span>
+														<span class="fa fa-folder-open" aria-hidden="true"></span>
 													</button>
 												</a>
 												
-												<button type="button" class="btn btn-info disabled" style="margin: 0; padding: 0 5px;" th:unless="${!r.fullnombre.substring(r.fullnombre.lastIndexOf('.') + 1).toUpperCase().matches('DOCX|DOC|PPT|PPTX|XLS|XLSX')}">
-													<span class="fa fa-file" aria-hidden="true"></span>
-												</button>
+												<a th:href="@{'/admin/exp-doc/' + ${e.idexpediente}}" th:if="${e.isActive == true || e.isClosed == true}">
+													<button type="button" class="btn btn-info" style="margin: 0; padding: 0 5px;">
+														<span class="fa fa-eye" aria-hidden="true"></span>
+													</button>
+												</a>
+												
 											</td>
+											
 											<td style="text-align: center;">
-												<a th:href="@{'/admin/download-doc/d/' + ${r.idarchivo}}">
-													<button type="button" class="btn btn-info" style="margin: 0; padding: 0 5px;"><span class="fa fa-download" aria-hidden="true"></span></button>
+												<a th:href="@{'/admin/remove-exp/' + ${e.idexpediente}}" th:if="${e.isActive != true && e.isClosed != true}">
+													<button type="button" class="btn btn-danger" style="margin:0; padding:0 5px;">
+														<span class="fa fa-trash" aria-hidden="true"></span>
+													</button>
 												</a>
-											</td>
-											<td style="text-align: center;" th:if="${bool}">
-												<a th:href="@{'/admin/remove-doc/' + ${idExpediente} + '/' + ${r.idarchivo}}">
-													<button type="button" class="btn btn-danger" style="margin:0; padding:0 5px;"><span class="fa fa-trash" aria-hidden="true"></span></button>
-												</a>
+
+												<button type="button" class="btn btn-danger disabled" style="margin:0; padding:0 5px;" th:if="${e.isActive == true || e.isClosed == true}">
+													<span class="fa fa-trash" aria-hidden="true"></span>
+												</button>
 											</td>
 										</tr> 
 									</tbody>
 								</table>
 							</div>
 							
-							
 							<div class="row col-md-12 col-sm-12 col-xs-12 bg-white">
-								<button type="button" data-toggle="modal" data-target="#modalAddDoc" th:attr="data-target='#modalAddDoc'" class="btn btn-primary pull-right" th:if="${bool}">Subir nuevo documento</button>
-								<a th:href="@{'/admin/zip-doc/' + ${idExpediente}}">
-									<button type="button" class="btn btn-info pull-right">Descargar todos (.zip)</button>
-								</a>
+								<button type="button" data-toggle="modal" data-target="#modalAddExpediente" th:attr="data-target='#modalAddExpediente'" class="btn btn-primary pull-right">Agregar expediente</button>
 							</div>
 							
-							<div class="row col-md-12 col-sm-12 col-xs-12 bg-white" th:if="${bool}">
-								  <button type="button" class="btn btn-success pull-right disabled">Continuar a la generación de solicitud</button> 
-							</div>
-							
-							<div class="modal fade in" th:id="modalAddDoc" th:if="${bool}">
+							<div class="modal fade in" th:id="modalAddExpediente">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true"></span></button>
-											<h3 class="modal-title">Agregar un documento probatorio</h3>
+											<h3 class="modal-title">Agregar expediente</h3>
 										</div>
 										<div class="modal-body">
-											<form th:action="@{/admin/save-doc}" method="POST" enctype="multipart/form-data">												
-												<div class="row col-md-12 col-sm-12 col-xs-12">
+											<form th:action="@{/admin/add-exp}" method="POST" enctype="multipart/form-data">
+												<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
 													<label path="name">Nombre</label>
 													<input type="text" class="form-control" required="" name="name" maxlength="50" />
 												</div>
 												
-												
-												<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;">
-													<label path="file">Archivo</label>
-													<input type="file" required="" name="file" class="form-control-file" accept=".xls,.xlsx,.doc,.docx,.pdf,.ppt,.pptx,.jpg,.jpeg" />
-												</div>
-												<input type="text" class="invisible" required="" name="idExpediente" th:value="${idExpediente}" maxlength="50" readonly/>
-												<button class="btn btn-success pull-right" type="submit">Subir</button>
+												<button class="btn btn-success pull-right" type="submit">Agregar</button>
 												<button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Cancelar</button>												
 											</form>
 										</div>
@@ -131,6 +123,8 @@
 
 							<div class="clearfix"></div>
 						</div>
+						<h5 th:text="${error}" style="color: red; margin-top: 20px;"></h5>
+						<h5 th:text="${acierto}" style="color: green; margin-top: 25px;"></h5>
 					</div>
 
 				</div>

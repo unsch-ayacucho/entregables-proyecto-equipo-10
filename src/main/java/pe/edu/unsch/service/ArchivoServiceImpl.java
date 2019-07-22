@@ -30,8 +30,8 @@ public class ArchivoServiceImpl implements ArchivoService {
 	}
 
 	@Override
-	public void saveDocumento(MultipartFile data, String nombre) {
-		archivoDao.saveDocumento(data, nombre);
+	public void saveDocumento(MultipartFile data, String nombre, long idExpediente) {
+		archivoDao.saveDocumento(data, nombre, idExpediente);
 	}
 
 	@Override
@@ -41,11 +41,19 @@ public class ArchivoServiceImpl implements ArchivoService {
 	}
 
 	@Override
-	public InputStream genSolicitud(String name, String last_name, String doc, String categoria_actual, String categoria_nueva, String domicilio) {
-		return archivoDao.genSolicitud(name, last_name, doc, categoria_actual, categoria_nueva, domicilio);
+	public InputStream genSolicitud(String name, String last_name, String doc, String categoria_actual, String categoria_nueva, String domicilio, long idusuario) {
+		return archivoDao.genSolicitud(name, last_name, doc, categoria_actual, categoria_nueva, domicilio, idusuario);
 		
 	}
-	
-	
+
+	@Override
+	public Archivo getArchivo(long l) {
+		return archivoDao.getArchivo(l);
+	}
+
+	@Override
+	public int saveSolicitud(MultipartFile data, long idExpediente) {
+		return archivoDao.saveSolicitud(data, idExpediente);
+	}
 	
 }

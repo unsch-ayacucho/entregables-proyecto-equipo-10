@@ -29,7 +29,7 @@
 			<ul class="nav side-menu">
 				<li>
 					<a th:href="@{'/admin/convocatoria/'}">
-						<i class="fa fa-user"></i> Convocatoria
+						<i class="fa fa-tasks"></i> Convocatoria
 					</a>
 				</li>
 				<li>
@@ -38,14 +38,24 @@
 						<span class="fa fa-chevron-down"></span>
 					</a>
 					<ul class="nav child_menu">
-						<li><a th:href="@{'/admin/doc/'}">Subir documentos</a></li>
-						<li><a th:href="@{'/admin/solicitud/'}">Generar solicitud</a></li>
+						<li><a th:href="@{'/admin/expediente-doc/'}">Administrar documentos</a></li>
+						<li><a th:href="@{'/admin/solicitud/'}">Administrar solicitudes</a></li>
 					</ul>
 				</li>
 				<li>
-					<a th:href="@{'/admin/usuario/'}">
-						<i class="fa fa-user"></i> Usuario
+					<a th:href="@{'/admin/expediente/'}">
+						<i class="fa fa-folder"></i> Expedientes
 					</a>
+				</li>
+				<li>
+					<a>
+						<i class="fa fa-user"></i> Usuario 
+						<span class="fa fa-chevron-down"></span>
+					</a>
+					<ul class="nav child_menu">
+						<li><a th:href="@{'/admin/usuario/'}">Administrar usuario</a></li>
+						<li><a th:href="@{'/admin/historial/'}">Historial de acciones</a></li>
+					</ul>
 				</li>
 				<!--
 				<li><a><i class="fa fa-th-list"></i> Administración <span

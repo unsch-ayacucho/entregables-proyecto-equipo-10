@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<div th:replace="views/admin/layout/layout :: head"></div>
+<link rel="stylesheet" th:href="@{/private/css/bootstrap-progressbar-3.3.4.min.css}" />
+<link rel="stylesheet" th:href="@{/private/css/jqvmap.min.css}" />
+</head>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<!-- sidebar menu -->
+			<div th:replace="views/admin/layout/layout :: menu"></div>
+			<!-- /sidebar menu -->
+
+			<!-- top navigation -->
+			<div th:replace="views/admin/layout/layout :: header"></div>
+			<!-- /top navigation -->
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<!-- top tiles -->
+				<h1>DOCUMENTOS</h1>
+				<!-- /top tiles -->
+
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="dashboard_graph">
+
+							<div class="row x_title">
+								<div class="col-md-6">
+									<h3>
+										Seleccione un expediente
+									</h3>
+								</div>
+								<div class="col-md-6">
+									<div id="reportrange" class="pull-right"
+										style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+										<i class="glyphicon glyphicon-calendar fa fa-calendar"></i> <span>June
+											9, 2018 - July 8, 2018</span> <b class="caret"></b>
+									</div>
+								</div>
+							</div>
+							
+							<ul>
+								<li th:each="exp : ${expedientes}"><a class="btn btn-link"  th:text="${exp.nombre} + ${exp.isClosed == true ? ' -- (CERRADO)' : exp.isActive == true ? ' -- (EN REVISIÓN)' : ''}" th:href="@{'/admin/exp-doc/' + ${exp.idexpediente}}"></a></li>
+							</ul>
+							
+							<div class="clearfix"></div>
+						</div>
+					</div>
+
+				</div>
+				<br>
+
+			</div>
+			<!-- /page content -->
+
+			<!-- footer content -->
+			<footer>
+				<div th:replace="views/admin/layout/layout :: footer"></div>
+				<script th:src="@{/private/js/Chart.min.js}"></script>
+				<script th:src="@{/private/js/gauge.min.js}"></script>
+				<script th:src="@{/private/js/bootstrap-progressbar.min.js}"></script>
+				
+				<script th:src="@{/private/js/icheck.min.js}"></script>
+				<script th:src="@{/private/js/skycons.js}"></script>
+				<script th:src="@{/private/js/jquery.flot.js}"></script>
+				
+				<script th:src="@{/private/js/jquery.flot.pie.js}"></script>
+				<script th:src="@{/private/js/jquery.flot.time.js}"></script>
+				<script th:src="@{/private/js/jquery.flot.stack.js}"></script>
+				
+				<script th:src="@{/private/js/jquery.flot.orderBars.js}"></script>
+				<script th:src="@{/private/js/jquery.flot.spline.min.js}"></script>
+				<script th:src="@{/private/js/curvedLines.js}"></script>
+				
+				<script th:src="@{/private/js/date.js}"></script>
+				<script th:src="@{/private/js/jquery.vmap.js}"></script>
+				<script th:src="@{/private/js/jquery.vmap.world.js}"></script>
+				
+				<script th:src="@{/private/js/jquery.vmap.sampledata.js}"></script>
+				<script th:src="@{/private/js/moment.min.js}"></script>
+				<script th:src="@{/private/js/daterangepicker.js}"></script>
+				<script th:src="@{/private/js/jsFlot.js}"></script>
+			</footer>
+			<!-- /footer content -->
+		</div>
+	</div>
+</body>
+</html>

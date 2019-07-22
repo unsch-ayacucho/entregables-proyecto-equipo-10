@@ -14,6 +14,8 @@
   <mapping class="pe.edu.unsch.entities.ComisionMiembro"/>
   <mapping class="pe.edu.unsch.entities.ConsejoFacultad"/>
   <mapping class="pe.edu.unsch.entities.ConsejoUniversitario"/>
+  <mapping class="pe.edu.unsch.entities.Expediente"/>
+  <mapping class="pe.edu.unsch.entities.ExpedienteArchivo"/>
   <mapping class="pe.edu.unsch.entities.Docente"/>
   <mapping class="pe.edu.unsch.entities.Informe"/>
   <mapping class="pe.edu.unsch.entities.InformeCF"/>

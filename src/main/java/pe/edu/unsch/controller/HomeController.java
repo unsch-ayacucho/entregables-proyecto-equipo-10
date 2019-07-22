@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.edu.unsch.service.ArchivoService;
+import pe.edu.unsch.service.ExpedienteService;
+import pe.edu.unsch.service.HistorialService;
 import pe.edu.unsch.service.UsuarioService;
 import pe.edu.unsch.entities.Archivo;
 import pe.edu.unsch.entities.Usuario;
@@ -36,6 +39,12 @@ import pe.edu.unsch.entities.Usuario;
 public class HomeController {
 	@Autowired
 	private ArchivoService archivoService;
+	
+	@Autowired
+	private ExpedienteService expedienteService;
+	
+	@Autowired
+	private HistorialService historialService;
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -52,13 +61,39 @@ public class HomeController {
 		return "views/admin/home/convocatoria";
 	}
 	
-	@GetMapping("/doc")
-	public String doc(Model model, @ModelAttribute("usuario") Usuario usuario) {
+	@GetMapping("/expediente")
+	public String expediente(Model model, @ModelAttribute("usuario") Usuario usuario) {
+		model.addAttribute("title", "Expedientes");
+		model.addAttribute("expedientes", this.expedienteService.listarExpedientes(usuario.getIdusuario()) );
+		return "views/admin/home/expediente";
+	}
+	
+	@GetMapping("/expediente-doc")
+	public String expedienteDoc(Model model, @ModelAttribute("usuario") Usuario usuario) {
+		model.addAttribute("title", "Subir documentos");
+		model.addAttribute("expedientes", this.expedienteService.listarExpedientes(usuario.getIdusuario()) );
+		return "views/admin/home/doc_expedientes";
+	}
+	
+	@GetMapping("/exp-doc/{idExpediente}")
+	public String doc(Model model, @ModelAttribute("usuario") Usuario usuario, @PathVariable("idExpediente") long idExpediente) {
+		boolean bool = this.expedienteService.isEditable(idExpediente);
+		if(bool) {
+			model.addAttribute("bool", bool);
+		}
 		model.addAttribute("title", "Documentos");
-		model.addAttribute("docs", this.archivoService.listarDocumentos( usuario.getIdusuario()) );
+		model.addAttribute("idExpediente", idExpediente);
+		model.addAttribute("docs", this.archivoService.listarDocumentos(idExpediente) );
 		return "views/admin/home/documentos";
 	}
 	
+	@GetMapping("/historial")
+	public String historial(Model model, @ModelAttribute("usuario") Usuario usuario) {
+		model.addAttribute("title", "Historial");
+		model.addAttribute("historial", this.historialService.listarHistorial(usuario.getIdusuario()) );
+		return "views/admin/home/historial";
+	}
+		
 	@GetMapping("/usuario")
 	public String user(Model model, @ModelAttribute("usuario") Usuario usuario) {
 		model.addAttribute("title", "Usuario");
@@ -70,17 +105,9 @@ public class HomeController {
 	public String solicitud(Model model, @ModelAttribute("usuario") Usuario usuario) {
 		model.addAttribute("title", "Solicitud");
 		model.addAttribute("user", this.usuarioService.datosUsuario(usuario.getIdusuario()) );
+		model.addAttribute("expedientes", this.expedienteService.listarExpedientesHabiles(usuario.getIdusuario()) );
 		return "views/admin/home/solicitud";
 	}
-	
-	@PostMapping("/logout")
-	public String logout(HttpSession session, RedirectAttributes redir) {
-		session.invalidate();
-		redir.addFlashAttribute("error", "Ha cerrado sesión correctamente.");
-		return "redirect:/login";
-	}
-	
-	
 	
 	// USER MANAGEMENT ROUTING
 	//
@@ -138,16 +165,47 @@ public class HomeController {
 		}
 	}
 	
+	// EXPEDIENT ROUTING
+	//
+	//
+	@PostMapping("/add-exp")
+	public String addExp(RedirectAttributes redir,@RequestParam("name") String name , @ModelAttribute("usuario") Usuario usuario) {
+		int resp = 0;
+		
+		try{
+			resp = this.expedienteService.addExpediente(name, new Long(usuario.getIdusuario()) );
+			if(resp == -1) {
+				redir.addFlashAttribute("error", "Ya existe un expediente con ese nombre...");
+				return "redirect:/admin/expediente";
+			} else {
+				redir.addFlashAttribute("acierto", "Expediente guardado con éxito.");
+				return "redirect:/admin/expediente";
+			}
+			
+		}			
+		catch(Exception err) {
+			err.printStackTrace();
+			redir.addFlashAttribute("error", "Algo salió mal...");
+			return "redirect:/admin/expediente";
+		}
+	}
+	
+	@RequestMapping("/remove-exp/{idExpediente}")
+	public String removeExp(@PathVariable("idExpediente") long idExpediente) {
+		this.expedienteService.removeExpediente(idExpediente);
+		return "redirect:/admin/expediente/";
+	}
+	
 	// DOCUMENT ROUTING
 	//
 	//
 	
 	@PostMapping("/save-doc")
-	public String saveDoc(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) {
+	public String saveDoc(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,  @RequestParam("idExpediente") long idExpediente) {
 		if(!name.trim().toLowerCase().equals("solicitud")) {
-			this.archivoService.saveDocumento(file, name);
+			this.archivoService.saveDocumento(file, name, idExpediente);
 		}
-		return "redirect:/admin/doc";
+		return "redirect:/admin/exp-doc/" + String.valueOf(idExpediente);
 	}
 	
 	@RequestMapping("/download-doc/{flag}/{idArchivo}")
@@ -170,25 +228,49 @@ public class HomeController {
 		return null;
 	}
 	
-	@RequestMapping("/remove-doc/{idArchivo}")
-	public String removeDoc(@PathVariable("idArchivo") long idArchivo) {
+	@RequestMapping("/remove-doc/{idExpediente}/{idArchivo}")
+	public String removeDoc(@PathVariable("idArchivo") long idArchivo, @PathVariable("idExpediente") long idExpediente) {
+		String str_aux = this.archivoService.getArchivo(idArchivo).getNombre().toLowerCase().trim();
 		this.archivoService.removeDocumento(idArchivo);
-		return "redirect:/admin/doc";
+		if(str_aux.equals("solicitud")) {
+			this.expedienteService.removeSolicitud(idExpediente);
+		}
+		return "redirect:/admin/exp-doc/" + String.valueOf(idExpediente);
 	}
 	
-	@RequestMapping(value="/zip-doc", produces="application/zip")
-	public String zipFiles(HttpServletResponse response, @ModelAttribute("usuario") Usuario usuario) throws IOException {
+	@RequestMapping(value="/zip-doc/{idExpediente}", produces="application/zip")
+	public String zipFiles(HttpServletResponse response, @PathVariable("idExpediente") long idExpediente) throws IOException {
 		
 	    response.setStatus(HttpServletResponse.SC_OK);
 	    response.addHeader("Content-Disposition", "attachment; filename=archivos.zip");
 	
 	    ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream());
 	
-	    List<Archivo> files = this.archivoService.listarDocumentos(usuario.getIdusuario());
+	    List<Archivo> files = this.archivoService.listarDocumentos(idExpediente);
 	
 	    for (Archivo file : files) {
+	    	String fileName = file.getFullnombre();
+	    	try {
+	    		 zipOutputStream.putNextEntry(new ZipEntry("[" + file.getNombre() + "]-" + fileName));
+			} catch (ZipException e) {
+				int count = 2;
+				String[] ls_aux = fileName.split("\\.");
+				String str_aux = "";
+				for (int i = 1; i < ls_aux.length; i++) {
+					str_aux = str_aux + "." + ls_aux[i];
+				}
+				System.out.println(str_aux);
+				while(true) {
+					try {
+						zipOutputStream.putNextEntry(new ZipEntry("[" + file.getNombre() + "]-" + ls_aux[0] + "(" + count + ")" + str_aux));
+						break;
+					} catch (ZipException e2) {
+						count++;
+					}
+				}
+				
+			}
 	    	
-	        zipOutputStream.putNextEntry(new ZipEntry(file.getFullnombre()));
 	        ByteArrayInputStream fileInputStream = new ByteArrayInputStream(file.getData());
 	
 	        IOUtils.copy(fileInputStream, zipOutputStream);
@@ -209,9 +291,9 @@ public class HomeController {
 	@PostMapping("/gen-solicitud")
 	public String genSolicitud(@RequestParam("name") String name, @RequestParam("last_name") String last_name, @RequestParam("doc") String doc,
 			@RequestParam("categoria_actual") String categoria_actual, @RequestParam("categoria_nueva") String categoria_nueva,
-			@RequestParam("domicilio") String domicilio, HttpServletResponse response) {
+			@RequestParam("domicilio") String domicilio, HttpServletResponse response, @ModelAttribute("usuario") Usuario usuario) {
 		
-		InputStream input = this.archivoService.genSolicitud(name, last_name, doc, categoria_actual, categoria_nueva, domicilio);
+		InputStream input = this.archivoService.genSolicitud(name, last_name, doc, categoria_actual, categoria_nueva, domicilio, usuario.getIdusuario());
 		
 		try {
 			response.setHeader("Content-Disposition", "attachment;filename=solicitud.pdf");
@@ -219,8 +301,8 @@ public class HomeController {
 			response.setContentType("application/pdf");
 			IOUtils.copy(input, out);
 			out.flush();
+			
 			out.close();
-		
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -229,9 +311,16 @@ public class HomeController {
 	}
 	
 	@PostMapping("/save-doc-gen")
-	public String saveDocGen(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, RedirectAttributes redir) {
-		this.archivoService.saveDocumento(file, name);
-		redir.addFlashAttribute("acierto2", "Se subió la solicitud correctamente.");
+	public String saveDocGen(@RequestParam("file") MultipartFile file, @RequestParam("id_expediente") long id_expediente, RedirectAttributes redir) {
+		int result = this.archivoService.saveSolicitud(file, id_expediente);
+		if(result == 1) {
+			redir.addFlashAttribute("acierto2", "Se subió la solicitud correctamente.");
+		} else if(result == 0) {
+			redir.addFlashAttribute("acierto2", "Se subió la solicitud correctamente. Se ha sobreescrito el archivo.");
+		} else {
+			redir.addFlashAttribute("acierto2", "Error inesperado.");
+		}
+		
 		return "redirect:/admin/solicitud";
 	}
 }

@@ -29,7 +29,7 @@
 							<div class="row x_title">
 								<div class="col-md-6">
 									<h3>
-										Generar solicitud
+										Generar y cargar solicitudes
 									</h3>
 								</div>
 							</div>
@@ -57,12 +57,15 @@
 								
 								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
 									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Categoría actual: </label>
-									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="categoria_actual" maxlength="50" th:value="${user.getDocentes().stream().findFirst().get().getCategoria()}" style="margin-left: 5px;" />
+									<select id="selectActual" class="col-md-4 col-sm-4 col-xs-4" required="" name="categoria_actual"  style="margin-left: 5px; padding-top: 2.5px; padding-bottom: 2.5px;">
+								      <option th:selected="${user.getDocentes().stream().findFirst().get().getCategoria() == 'Auxiliar'}">Auxiliar</option>
+								      <option th:selected="${user.getDocentes().stream().findFirst().get().getCategoria() == 'Asociado'}">Asociado</option>
+								    </select>
 								</div>
 								
 								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
 									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Categoría a postular: </label>
-									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="categoria_nueva" maxlength="50" value="" style="margin-left: 5px;" />
+									<input id="textNuevo" class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="categoria_nueva" maxlength="50" value="" style="margin-left: 5px; background-color: rgb(235, 235, 228);" readonly />
 								</div>
 								
 								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
@@ -89,18 +92,25 @@
 							</div>
 											
 							<form th:action="@{/admin/save-doc-gen}" method="POST" enctype="multipart/form-data">
-								<div class="row col-md-12 col-sm-12 col-xs-12">
-									<label path="name">Nombre: </label>
-									<input type="text" required="" name="name" maxlength="50" value="Solicitud" style="margin-left: 5px;" readonly />
-								</div>
-																			
-								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;">
-									<label path="file">Archivo</label>
-									<input type="file" required="" name="file" class="form-control-file" accept=".doc,.docx,.pdf,.jpg,.jpeg" />
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Nombre: </label>
+									<input class="col-md-4 col-sm-4 col-xs-4" type="text" required="" name="name" maxlength="50" value="Solicitud" style="margin-left: 5px; background-color: rgb(235, 235, 228); padding-left: 5px;" readonly />
 								</div>
 								
-								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
-									<h5 th:text="${acierto2}" style="color: green; margin-top: 20px;"></h5>
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="id_expediente">Expediente destino: </label>
+									<select class="col-md-4 col-sm-4 col-xs-4" required="" name="id_expediente"  style="margin-left: 5px; padding-top: 2.5px; padding-bottom: 2.5px;">
+										<option th:each="exp : ${expedientes}" th:value="${exp.idexpediente}" th:text="${exp.nombre}"></option>
+									</select>
+								</div>
+														
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;">
+									<label class="col-md-4 col-sm-4 col-xs-4" path="file">Archivo</label>
+									<input class="col-md-4 col-sm-4 col-xs-4 form-control-file" type="file" required="" name="file" accept=".doc,.docx,.pdf,.jpg,.jpeg" />
+								</div>
+								
+								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px; margin-top: 20px;">
+									<h5 th:text="${acierto2}" style="color: green;"></h5>
 								</div>
 												
 								<button class="btn btn-success pull-right" type="submit">Subir</button>												
@@ -142,6 +152,14 @@
 				<script th:src="@{/private/js/moment.min.js}"></script>
 				<script th:src="@{/private/js/daterangepicker.js}"></script>
 				<script th:src="@{/private/js/jsFlot.js}"></script>
+				<script>
+				jQuery(window).on("load", function(){
+					$('#textNuevo').attr('value', $('#selectActual').val() === 'Auxiliar' ? 'Asociado' : 'Principal')
+				});
+				$('#selectActual').on('change', function() {
+					$('#textNuevo').attr('value', this.value === 'Auxiliar' ? 'Asociado' : 'Principal')
+				});
+				</script>
 			</footer>
 			<!-- /footer content -->
 		</div>

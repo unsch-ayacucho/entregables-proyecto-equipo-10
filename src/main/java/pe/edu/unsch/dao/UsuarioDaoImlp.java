@@ -5,27 +5,21 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import pe.edu.unsch.entities.Docente;
 import pe.edu.unsch.entities.Usuario;
+import pe.edu.unsch.service.HistorialService;
 
 @Repository("usuarioDao")
 public class UsuarioDaoImlp implements UsuarioDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	@Override
-	public Usuario login(String usuario, String password) {
-		return (Usuario) entityManager
-
-				.createQuery("from Usuario where usuario = :usuario and password = :password")
-
-				.setParameter("usuario", usuario)
-				.setParameter("password", password)
-				.getSingleResult();
-	}
+	
+	@Autowired
+	private HistorialService historialService;
 
 	@Override
 	public Usuario datosUsuario(long l) {
@@ -42,6 +36,7 @@ public class UsuarioDaoImlp implements UsuarioDao {
 			user.setPassword(new_pass_c);
 			try {
 				entityManager.merge(user);
+				this.historialService.newHistorial(l, "Contraseña actualizada.");
 				return 1;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -58,11 +53,27 @@ public class UsuarioDaoImlp implements UsuarioDao {
 		Usuario user = (Usuario) entityManager.find(Usuario.class, l);
 		Docente docente = user.getDocentes().stream().findFirst().get();
 		
-		docente.setCelular(new_celular);
-		docente.setDomicilio(new_domicilio);
+		boolean bool_cel = !docente.getCelular().trim().toLowerCase().equals(new_celular.trim().toLowerCase());
+		boolean bool_dom = !docente.getDomicilio().trim().toLowerCase().equals(new_domicilio.trim().toLowerCase());
+		
+		if(bool_cel) {
+			docente.setCelular(new_celular);
+		}
+		
+		if(bool_dom) {
+			docente.setDomicilio(new_domicilio);
+		}
+		
 		
 		try {
 			entityManager.merge(docente);
+			if(bool_cel) {
+				this.historialService.newHistorial(l, "Número celular actualizado.");
+			}
+			
+			if(bool_dom) {
+				this.historialService.newHistorial(l, "Domicilio actualizado.");
+			}
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
