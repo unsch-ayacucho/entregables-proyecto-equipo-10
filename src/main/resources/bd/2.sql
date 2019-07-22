@@ -1,24 +1,15 @@
-INSERT INTO `categorizacionbd`.`docente`
-(`iddocente`,
+INSERT INTO `categorizacionbd`.`perfil`
+(`idperfil`,
+`nombre`)
+VALUES
+(1,
+'ROLE_USER');
+
+INSERT INTO `categorizacionbd`.`usuarioperfil`
+(`idusuarioperfil`,
 `idusuario`,
-`categoria`,
-`nombres`,
-`apepaterno`,
-`apematerno`,
-`nrodoc`,
-`fecha_nacimiento`,
-`domicilio`,
-`celular`,
-`sexo`)
+`idperfil`)
 VALUES
 (1,
 1,
-"Asociado",
-"Roberto",
-"Villano",
-"Salvador",
-"45238979",
-'1985-7-04',
-"Urb la Julia SN",
-"979666666",
-"m");
+1);

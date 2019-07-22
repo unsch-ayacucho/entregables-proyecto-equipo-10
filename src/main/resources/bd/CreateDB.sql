@@ -36,6 +36,15 @@ DROP TABLE IF EXISTS `ConsejoUniversitario` CASCADE
 DROP TABLE IF EXISTS `Docente` CASCADE
 ;
 
+DROP TABLE IF EXISTS `Expediente` CASCADE
+;
+
+DROP TABLE IF EXISTS `ExpedienteArchivo` CASCADE
+;
+
+DROP TABLE IF EXISTS `Historial` CASCADE
+;
+
 DROP TABLE IF EXISTS `Informe` CASCADE
 ;
 
@@ -66,12 +75,18 @@ DROP TABLE IF EXISTS `TablaEvDetalle` CASCADE
 DROP TABLE IF EXISTS `Usuario` CASCADE
 ;
 
+DROP TABLE IF EXISTS `Perfil` CASCADE
+;
+
+DROP TABLE IF EXISTS `UsuarioPerfil` CASCADE
+;
+
 /* Create Tables */
 
 CREATE TABLE `Archivo`
 (
 	`idarchivo` BIGINT NOT NULL AUTO_INCREMENT,
-	`iddocente` BIGINT NOT NULL,
+	`idexpediente` BIGINT NOT NULL,
 	`nombre` VARCHAR(100) NOT NULL,
     `fullnombre` VARCHAR(100) NOT NULL,
     `tipo` VARCHAR(100) NOT NULL,
@@ -171,6 +186,32 @@ CREATE TABLE `Docente`
 
 ;
 
+CREATE TABLE `Expediente`
+(
+	`idexpediente` BIGINT NOT NULL AUTO_INCREMENT,
+    `iddocente` BIGINT NOT NULL,
+    `nombre` VARCHAR(50) NOT NULL,
+    `is_active` BOOL NOT NULL,
+    `is_closed` BOOL NULL,
+    `have_solicitud` BOOL NOT NULL,
+    `fecha_creacion` DATETIME NOT NULL,
+    `fecha_cierre` DATETIME,
+	CONSTRAINT `PK_Expediente` PRIMARY KEY (`idexpediente` ASC)
+)
+
+;
+
+CREATE TABLE `Historial`
+(
+	`idhistorial` BIGINT NOT NULL AUTO_INCREMENT,
+    `idusuario` BIGINT NOT NULL,
+    `detalle` VARCHAR(150) NOT NULL,
+    `fecha` DATETIME NOT NULL,
+	CONSTRAINT `PK_Historial` PRIMARY KEY (`idhistorial` ASC)
+)
+
+;
+
 CREATE TABLE `Informe`
 (
 	`idinforme` BIGINT NOT NULL AUTO_INCREMENT,
@@ -237,6 +278,25 @@ CREATE TABLE `JefeDepartamento`
 
 ;
 
+CREATE TABLE `Perfil`
+(
+	`idperfil` BIGINT NOT NULL AUTO_INCREMENT,
+    `nombre` VARCHAR(50) NOT NULL,
+	CONSTRAINT `PK_Archivo` PRIMARY KEY (`idperfil` ASC)
+)
+
+;
+
+CREATE TABLE `UsuarioPerfil`
+(
+	`idusuarioperfil` BIGINT NOT NULL AUTO_INCREMENT,
+    `idusuario` BIGINT NOT NULL,
+    `idperfil` BIGINT NOT NULL,
+	CONSTRAINT `PK_Archivo` PRIMARY KEY (`idusuarioperfil` ASC)
+)
+
+;
+
 CREATE TABLE `Promocion`
 (
 	`idpromocion` BIGINT NOT NULL AUTO_INCREMENT,
@@ -286,9 +346,8 @@ CREATE TABLE `Usuario`
 (
 	`idusuario` BIGINT NOT NULL AUTO_INCREMENT,
 	`usuario` VARCHAR(50) NOT NULL,
-	`password` VARCHAR(50) NOT NULL,
+	`password` VARCHAR(66) NOT NULL,
 	`cargo` VARCHAR(50) NOT NULL,
-	`es_admin` BOOL NOT NULL,
 	CONSTRAINT `PK_Usuario` PRIMARY KEY (`idusuario` ASC)
 )
 
@@ -297,7 +356,7 @@ CREATE TABLE `Usuario`
 /* Create Primary Keys, Indexes, Uniques, Checks */
 
 ALTER TABLE `Archivo` 
- ADD INDEX `IXFK_Archivo_Docente` (`iddocente` ASC)
+ ADD INDEX `IXFK_Archivo_Expediente` (`idexpediente` ASC)
 ;
 
 ALTER TABLE `CalendarioDetalle` 
@@ -314,6 +373,14 @@ ALTER TABLE `ComisionMiembro`
 
 ALTER TABLE `ComisionMiembro` 
  ADD INDEX `IXFK_ComisionMiembro_Docente` (`iddocente` ASC)
+;
+
+ALTER TABLE `Expediente` 
+ ADD INDEX `IXFK_Expediente_Docente` (`iddocente` ASC)
+;
+
+ALTER TABLE `Historial` 
+ ADD INDEX `IXFK_Historial_Usuario` (`idusuario` ASC)
 ;
 
 ALTER TABLE `Informe` 
@@ -352,6 +419,14 @@ ALTER TABLE `InformeDetalle`
  ADD INDEX `IXFK_InformeDetalle_TablaEvDetalle` (`idtablaevdetalle` ASC)
 ;
 
+ALTER TABLE `Perfil` 
+ ADD INDEX `IXFK_Perfil` (`idperfil` ASC)
+;
+
+ALTER TABLE `UsuarioPerfil` 
+ ADD INDEX `IXFK_Usuario_Perfil` (`idusuarioperfil` ASC)
+;
+
 ALTER TABLE `Promocion` 
  ADD INDEX `IXFK_Promocion_Cargo` (`idcategoria` ASC)
 ;
@@ -371,8 +446,8 @@ ALTER TABLE `TablaEvDetalle`
 /* Create Foreign Key Constraints */
 
 ALTER TABLE `Archivo` 
- ADD CONSTRAINT `FK_Archivo_Docente`
-	FOREIGN KEY (`iddocente`) REFERENCES `Docente` (`iddocente`) ON DELETE Restrict ON UPDATE Restrict
+ ADD CONSTRAINT `FK_Archivo_Expediente`
+	FOREIGN KEY (`idexpediente`) REFERENCES `Expediente` (`idexpediente`) ON DELETE Restrict ON UPDATE Restrict
 ;
 
 ALTER TABLE `CalendarioDetalle` 
@@ -397,6 +472,16 @@ ALTER TABLE `ComisionMiembro`
 
 ALTER TABLE `Docente` 
  ADD CONSTRAINT `FK_Docente_Usuario`
+	FOREIGN KEY (`idusuario`) REFERENCES `Usuario` (`idusuario`) ON DELETE Restrict ON UPDATE Restrict
+;
+
+ALTER TABLE `Expediente` 
+ ADD CONSTRAINT `FK_Expediente_Docente`
+	FOREIGN KEY (`iddocente`) REFERENCES `Docente` (`iddocente`) ON DELETE Restrict ON UPDATE Restrict
+;
+
+ALTER TABLE `Historial` 
+ ADD CONSTRAINT `FK_Historial_Usuario`
 	FOREIGN KEY (`idusuario`) REFERENCES `Usuario` (`idusuario`) ON DELETE Restrict ON UPDATE Restrict
 ;
 
@@ -468,6 +553,16 @@ ALTER TABLE `Resolucion`
 ALTER TABLE `TablaEvDetalle` 
  ADD CONSTRAINT `FK_TablaEvDetalle_TablaEv`
 	FOREIGN KEY (`idtablaev`) REFERENCES `TablaEv` (`idtablaev`) ON DELETE Restrict ON UPDATE Restrict
+;
+
+ALTER TABLE `UsuarioPerfil` 
+  ADD CONSTRAINT `FK_UsuarioPerfil_Usuario`
+	FOREIGN KEY (`idusuario`) REFERENCES `Usuario` (`idusuario`) ON DELETE Restrict ON UPDATE Restrict
+;
+
+ALTER TABLE `UsuarioPerfil` 
+  ADD CONSTRAINT `FK_UsuarioPerfil_Perfil`
+	FOREIGN KEY (`idperfil`) REFERENCES `Perfil` (`idperfil`) ON DELETE Restrict ON UPDATE Restrict
 ;
 
 SET FOREIGN_KEY_CHECKS=1 
