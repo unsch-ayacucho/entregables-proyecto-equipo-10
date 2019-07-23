@@ -18,4 +18,6 @@ public interface ExpedienteService {
 	public int addSolicitud(long l);
 
 	public int removeSolicitud(long l);
+	
+	public boolean isSendable(long iddocente);
 }

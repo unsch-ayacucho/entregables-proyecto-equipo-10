@@ -61,8 +61,7 @@
 											<td th:text="${#dates.format(e.fechaCreacion, 'dd/MM/yyyy | hh:mm a')}" style="vertical-align: middle;"></td>
 											<td th:text="${e.fechaCierre != null ? #dates.format(e.fechaCierre, 'dd/MM/yyyy | hh:mm a') : 'No cerrado aún'}" style="vertical-align: middle;"></td>
 											<td th:text="${e.isActive == true ? 'Sí' : 'No'}" style="vertical-align: middle;"></td>
-											
-											
+																			
 											<td style="text-align: center;">
 												<a th:href="@{'/admin/exp-doc/' + ${e.idexpediente}}" th:if="${e.isActive != true && e.isClosed != true}">
 													<button type="button" class="btn btn-info" style="margin: 0; padding: 0 5px;">
@@ -84,8 +83,7 @@
 														<span class="fa fa-trash" aria-hidden="true"></span>
 													</button>
 												</a>
-
-												<button type="button" class="btn btn-danger disabled" style="margin:0; padding:0 5px;" th:if="${e.isActive == true || e.isClosed == true}">
+														<button type="button" class="btn btn-danger disabled" style="margin:0; padding:0 5px;" th:if="${e.isActive == true || e.isClosed == true}">
 													<span class="fa fa-trash" aria-hidden="true"></span>
 												</button>
 											</td>
@@ -93,6 +91,7 @@
 									</tbody>
 								</table>
 							</div>
+								
 							
 							<div class="row col-md-12 col-sm-12 col-xs-12 bg-white">
 								<button type="button" data-toggle="modal" data-target="#modalAddExpediente" th:attr="data-target='#modalAddExpediente'" class="btn btn-primary pull-right">Agregar expediente</button>

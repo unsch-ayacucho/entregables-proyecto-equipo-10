@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import pe.edu.unsch.entities.Historial;
 import pe.edu.unsch.entities.Usuario;
 
-@Repository("HistorialDao")
+@Repository("historialDao")
 public class HistorialDaoImpl implements HistorialDao {
 	@PersistenceContext
 	private EntityManager entityManager;

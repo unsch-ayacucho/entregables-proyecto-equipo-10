@@ -50,4 +50,9 @@ public class ExpedienteServiceImpl implements ExpedienteService {
 	public int removeSolicitud(long l) {
 		return expedienteDao.removeSolicitud(l);
 	}
+
+	@Override
+	public boolean isSendable(long iddocente) {
+		return expedienteDao.isSendable(iddocente);
+	}
 }

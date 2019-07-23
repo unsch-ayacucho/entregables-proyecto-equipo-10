@@ -12,7 +12,6 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.edu.unsch.service.ArchivoService;
+import pe.edu.unsch.service.CalendarioService;
 import pe.edu.unsch.service.ExpedienteService;
 import pe.edu.unsch.service.HistorialService;
+import pe.edu.unsch.service.PromocionService;
 import pe.edu.unsch.service.UsuarioService;
 import pe.edu.unsch.entities.Archivo;
 import pe.edu.unsch.entities.Usuario;
@@ -41,10 +42,16 @@ public class HomeController {
 	private ArchivoService archivoService;
 	
 	@Autowired
+	private CalendarioService calendarioService;
+	
+	@Autowired
 	private ExpedienteService expedienteService;
 	
 	@Autowired
 	private HistorialService historialService;
+	
+	@Autowired
+	private PromocionService promocionService;
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -56,22 +63,26 @@ public class HomeController {
 	}
 	
 	@GetMapping("/convocatoria")
-	public String conv(HttpSession session, Model model) {
+	public String conv(Model model, @ModelAttribute("usuario") Usuario usuario) {
+		long id_docente = usuario.getDocentes().stream().findFirst().get().getIddocente();
 		model.addAttribute("title", "Convocatoria");
+		model.addAttribute("sendable", this.expedienteService.isSendable(id_docente));
+		model.addAttribute("calendarios", this.calendarioService.listarCalendario());
+		model.addAttribute("expedientes", this.expedienteService.listarExpedientesHabiles(id_docente) );
 		return "views/admin/home/convocatoria";
 	}
 	
 	@GetMapping("/expediente")
 	public String expediente(Model model, @ModelAttribute("usuario") Usuario usuario) {
 		model.addAttribute("title", "Expedientes");
-		model.addAttribute("expedientes", this.expedienteService.listarExpedientes(usuario.getIdusuario()) );
+		model.addAttribute("expedientes", this.expedienteService.listarExpedientes(usuario.getDocentes().stream().findFirst().get().getIddocente()) );
 		return "views/admin/home/expediente";
 	}
 	
 	@GetMapping("/expediente-doc")
 	public String expedienteDoc(Model model, @ModelAttribute("usuario") Usuario usuario) {
 		model.addAttribute("title", "Subir documentos");
-		model.addAttribute("expedientes", this.expedienteService.listarExpedientes(usuario.getIdusuario()) );
+		model.addAttribute("expedientes", this.expedienteService.listarExpedientes(usuario.getDocentes().stream().findFirst().get().getIddocente()) );
 		return "views/admin/home/doc_expedientes";
 	}
 	
@@ -105,8 +116,18 @@ public class HomeController {
 	public String solicitud(Model model, @ModelAttribute("usuario") Usuario usuario) {
 		model.addAttribute("title", "Solicitud");
 		model.addAttribute("user", this.usuarioService.datosUsuario(usuario.getIdusuario()) );
-		model.addAttribute("expedientes", this.expedienteService.listarExpedientesHabiles(usuario.getIdusuario()) );
+		model.addAttribute("expedientes", this.expedienteService.listarExpedientesHabiles(usuario.getDocentes().stream().findFirst().get().getIddocente()) );
 		return "views/admin/home/solicitud";
+	}
+	
+	// CONVOCATORIA
+	//
+	//
+	@PostMapping("/save-conv")
+	public String save_conv(RedirectAttributes redir, @ModelAttribute("usuario") Usuario usuario, @RequestParam("optradio") long optradio) {
+		this.promocionService.savePromocion(optradio, usuario.getDocentes().stream().findFirst().get().getIddocente());
+		redir.addFlashAttribute("error", "Las claves nuevas no coinciden entre sí.");
+		return "redirect:/admin/convocatoria";
 	}
 	
 	// USER MANAGEMENT ROUTING
@@ -169,7 +190,7 @@ public class HomeController {
 	//
 	//
 	@PostMapping("/add-exp")
-	public String addExp(RedirectAttributes redir,@RequestParam("name") String name , @ModelAttribute("usuario") Usuario usuario) {
+	public String addExp(RedirectAttributes redir, @RequestParam("name") String name, @ModelAttribute("usuario") Usuario usuario) {
 		int resp = 0;
 		
 		try{

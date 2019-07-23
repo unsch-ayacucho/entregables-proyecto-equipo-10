@@ -58,8 +58,8 @@
 								<div class="row col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 12px;">
 									<label class="col-md-4 col-sm-4 col-xs-4" path="name">Categoría actual: </label>
 									<select id="selectActual" class="col-md-4 col-sm-4 col-xs-4" required="" name="categoria_actual"  style="margin-left: 5px; padding-top: 2.5px; padding-bottom: 2.5px;">
-								      <option th:selected="${user.getDocentes().stream().findFirst().get().getCategoria() == 'Auxiliar'}">Auxiliar</option>
-								      <option th:selected="${user.getDocentes().stream().findFirst().get().getCategoria() == 'Asociado'}">Asociado</option>
+								      <option th:selected="${user.getDocentes().stream().findFirst().get().getCategoria().getNombre() == 'Auxiliar'}">Auxiliar</option>
+								      <option th:selected="${user.getDocentes().stream().findFirst().get().getCategoria().getNombre() == 'Asociado'}">Asociado</option>
 								    </select>
 								</div>
 								

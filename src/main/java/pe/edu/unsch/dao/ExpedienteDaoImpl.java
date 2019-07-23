@@ -60,6 +60,20 @@ public class ExpedienteDaoImpl implements ExpedienteDao {
 			return true;
 		}
 	}
+	
+	@Override
+	public boolean isSendable(long iddocente){
+		List<Expediente> ls = this.listarExpedientes(iddocente);
+		
+		for (Expediente exp_aux : ls) {
+			if(exp_aux.isIsActive()) {
+				return false;
+			}
+		}
+		
+		return true;
+		
+	}
 
 	@Override
 	public int addExpediente(String name, long l) {

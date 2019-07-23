@@ -19,4 +19,6 @@ public interface ExpedienteDao {
 
 	public int removeSolicitud(long l);
 
+	public boolean isSendable(long iddocente);
+
 }

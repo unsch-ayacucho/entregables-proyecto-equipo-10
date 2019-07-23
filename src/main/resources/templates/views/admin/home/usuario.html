@@ -64,7 +64,7 @@
 									
 									<div class="col-md-4 col-sm-4 col-xs-4">
 										<label class="col-md-4 col-sm-4 col-xs-4" path="categoria">CATEGORÍA: </label>
-										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="categoria" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getCategoria()}" />
+										<input class="col-md-4 col-sm-4 col-xs-4" type="text" name="categoria" maxlength="50" disabled th:value="${user.getDocentes().stream().findFirst().get().getCategoria().getNombre()}" />
 									</div>							
 								</div>
 								

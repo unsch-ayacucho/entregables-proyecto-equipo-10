@@ -22,8 +22,8 @@
 				<h1>DASHBOARD</h1>
 				<!-- /top tiles -->
 
-				<div class="row" style="margin-top: 20px;">
-					<div class="col-md-6 col-sm-6 col-xs-6">
+				<div class="row" style="margin-top: 20px;" th:if="${sendable}">
+					<div class="col-md-12 col-sm-12 col-xs-12">
 						<div class="dashboard_graph">
 
 							<div class="row x_title">
@@ -34,28 +34,74 @@
 								</div>
 							</div>
 							
+							<p style="text-align: center; font-size: 20px; margin-top: 20px;">
+								<span>¡Del </span>
+								<span th:text="${#dates.format(calendarios.stream().findFirst().get().getFechaInicio(), 'dd/MM/ yyyy')} + ' al '"></span>
+								<span th:text="${#dates.format(calendarios.stream().findFirst().get().getFechaFin(), 'dd/MM/ yyyy')} + '!'"></span>
+							</p>
+							
+							<p style="font-weight: bold; font-size: 18px; margin-top: 20px; margin-bottom: 0px;">Participar en convocatoria</p>
+							<p style="font-weight: bold; font-size: 15px;">Seleccionar expediente:</p>
+							
+							<form th:action="@{/admin/save-conv}" method="POST">
+								<table class="table table-bordered">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Nombre del expediente</th>
+											<th>Fecha de creación</th>
+											<th style="text-align: center;">Seleccionar</th>
+											<th style="text-align: center;">Visualizar</th>
+										</tr>
+									</thead>
+									<tbody>
+										 <tr th:each="e : ${expedientes}">
+											<td th:text="${eStat.index} + 1" style="vertical-align: middle;"></td>
+											<td th:text="${e.nombre}" style="vertical-align: middle;"></td>
+											<td th:text="${#dates.format(e.fechaCreacion, 'dd/MM/yyyy | hh:mm a')}" style="vertical-align: middle;"></td>
+											
+											
+											<td style="text-align: center;">
+												<input type="radio" name="optradio" required th:value="${e.idexpediente}"/>												
+											</td>
+											
+											<td style="text-align: center;">												
+												<a th:href="@{'/admin/exp-doc/' + ${e.idexpediente}}">
+													<button type="button" class="btn btn-info" style="margin: 0; padding: 0 5px;">
+														<span class="fa fa-eye" aria-hidden="true"></span>
+													</button>
+												</a>
+												
+											</td>
+										</tr> 
+									</tbody>
+								</table>
+								<button class="btn btn-success pull-right" type="submit">Enviar expediente</button>												
+							</form>
+							
 
 							<div class="clearfix"></div>
 						</div>
+						
 					</div>
-					
-					<div class="col-md-5 col-sm-5 col-xs-5 pull-right">
+				</div>
+				
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-md-12 col-sm-12 col-xs-12">
 						<div class="dashboard_graph">
-
 							<div class="row x_title">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<h3>
-										Participar en convocatoria
+										No se puede envir una convocatoria ahora mismo.
 									</h3>
 								</div>
 							</div>
-							
-											
+							<p style="text-align: center; font-size: 20px; margin-top: 20px;">
+								Usted tiene una solicitud de promoción en estos momentos.
+							</p>
 							<div class="clearfix"></div>
 						</div>
 					</div>
-
-
 				</div>
 				<br>
 
